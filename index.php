@@ -14,7 +14,7 @@ define('HTTP_REFERER', isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'
 define('UPLOAD_PATH', './Public/upload/');
 
 // ThinkPHP定义
-define('APP_DEBUG', true);
+define('APP_DEBUG', false);
 define('THINK_PATH', SITE_DIR . DS . 'Libs' . DS . 'ThinkPHP' . DS);
 define('APP_PATH', SITE_DIR . DS . 'App' . DS);
 define('RUNTIME_PATH', SITE_DIR . DS . 'Public' . DS . 'Runtime' . DS);   // 系统运行时目录
