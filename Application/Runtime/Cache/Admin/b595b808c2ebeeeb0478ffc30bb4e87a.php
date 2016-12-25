@@ -3,8 +3,8 @@
     <title>后台页面</title>
 </head>
 <frameset rows="100,*" frameborder="no" border="0" framespacing="0" style="">
-	<frame src="/Admin/Index/top" name="topFrame" noresize="noresize" id="topFrame"  scrolling="no"/>
-	<frame src="/Admin/Index/center" name="centerFrame" id="centerFrame"  scrolling="auto"/>	
+	<frame src="/admin/index/top" name="topFrame" noresize="noresize" id="topFrame"  scrolling="no"/>
+	<frame src="/admin/index/center" name="centerFrame" id="centerFrame"  scrolling="auto"/>	
 </frameset>
 <noframes>
 <body>
