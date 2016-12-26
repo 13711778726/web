@@ -34,8 +34,6 @@ class RedisService{
         $host='www.linlizhu.website';
         $port='1748';
         $this->redis->connect($host, $port);
-        $this->redis->set('username','redis');
-        echo $this->redis->get('username');exit;
     }
     
     /**
@@ -63,6 +61,7 @@ class RedisService{
     public function set($key, $value, $timeOut=0) {
     
         $key=$this->getKeyName($key);
+        echo $key;exit;
         $retRes = $this->redis->set($key, $value);
         if ($timeOut > 0) {
     
