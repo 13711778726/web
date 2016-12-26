@@ -16,11 +16,7 @@ function index(){
         $this->display();
     }
     function main(){
-        $redis = new Redis();
-        $host='www.linlizhu.website';
-        $port='1748';
-        $redis->connect($host, $port);
-
+	    $redis = new \RedisService();
         $redis->set('username','redis');
         echo $redis->get('username');
         $this->display();
