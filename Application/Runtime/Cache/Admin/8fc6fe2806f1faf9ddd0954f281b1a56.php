@@ -3,6 +3,6 @@
 <title>Insert title here</title>
 </head>
 <frameset cols="200,*" frameborder="no" border="0" framespacing="0" style="">
-	<frame src="/admin/index/left" name="leftFrame" noresize="noresize" id="leftFrame"  scrolling="no"/>	
-	<frame src="/admin/index/main" name="mainFrame" id="mainFrame"  scrolling="auto"/>	
+	<frame src="/Admin/Index/left" name="leftFrame" noresize="noresize" id="leftFrame"  scrolling="no"/>	
+	<frame src="/Admin/Index/main" name="mainFrame" id="mainFrame"  scrolling="auto"/>	
 </frameset>
