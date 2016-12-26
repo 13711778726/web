@@ -1,7 +1,5 @@
 
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
@@ -11,9 +9,7 @@ use Think\Cache;
 defined('THINK_PATH') or exit();
 
 /**
- * Redis缓存驱动 
- * 要求安装phpredis扩展：https://github.com/nicolasff/phpredis
- */
+
 class Redis extends Cache {
 	 /**
 	 * 架构函数
