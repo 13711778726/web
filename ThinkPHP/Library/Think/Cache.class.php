@@ -53,6 +53,15 @@ class Cache {
      */
     static function getInstance($type='',$options=array()) {
 		static $_instance	=	array();
+		if(isset($options['type'])){
+		    $options_array['type'] = $options['type'];
+		}
+		if(isset($options['host'])){
+		    $options_array['host'] = $options['host'];
+		}
+		if(isset($options['port'])){
+		    $options_array['port'] = $options['port'];
+		}
 		$guid	=	$type.to_guid_string($options);
 		if(!isset($_instance[$guid])){
 			$obj	=	new Cache();
