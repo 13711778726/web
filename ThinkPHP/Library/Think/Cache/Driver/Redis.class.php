@@ -1,6 +1,4 @@
-<?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
+
 // +----------------------------------------------------------------------
 // | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
@@ -27,8 +25,8 @@ class Redis extends Cache {
             E(L('_NOT_SUPPORT_').':redis');
         }
         $options = array_merge(array (
-            'host'          => C('REDIS_HOST') ? : '127.0.0.1',
-            'port'          => C('REDIS_PORT') ? : 6379,
+            'host'          => C('REDIS_HOST') ? : '101.201.65.237',
+            'port'          => C('REDIS_PORT') ? : 1748,
             'timeout'       => C('DATA_CACHE_TIMEOUT') ? : false,
             'persistent'    => false,
         ),$options);

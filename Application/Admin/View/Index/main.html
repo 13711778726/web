@@ -5,6 +5,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	2222
+	
 </body>
 </html>
