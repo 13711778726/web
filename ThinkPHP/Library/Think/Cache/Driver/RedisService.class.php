@@ -1,5 +1,6 @@
 <?php
 namespace Think\Cache\Driver;
+use Think\Cache;
 class RedisService{
     /**
      * [$redisKey description]
