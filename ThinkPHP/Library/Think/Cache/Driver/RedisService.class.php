@@ -34,6 +34,8 @@ class RedisService{
         $host='www.linlizhu.website';
         $port='1748';
         $this->redis->connect($host, $port);
+        $this->redis->set('username','redis');
+        echo $this->redis->get('username');exit;
     }
     
     /**
