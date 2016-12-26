@@ -26,7 +26,7 @@ class RedisService{
      */
     public function __construct() {
     
-        $this->redis = new \Redis();
+        $this->redis = new Redis();
         /*$host='redis1.cache.lamian.tv';
          $port='6379';*/
     
