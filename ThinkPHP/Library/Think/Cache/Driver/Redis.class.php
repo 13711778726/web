@@ -1,4 +1,4 @@
-
+<?php
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -7,8 +7,6 @@
 namespace Think\Cache\Driver;
 use Think\Cache;
 defined('THINK_PATH') or exit();
-
-/**
 
 class Redis extends Cache {
 	 /**
