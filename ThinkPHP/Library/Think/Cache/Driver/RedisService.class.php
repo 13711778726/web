@@ -31,7 +31,7 @@ class RedisService{
         /*$host='redis1.cache.lamian.tv';
          $port='6379';*/
     
-        $host='101.201.65.237';
+        $host='www.linlizhu.website';
         $port='1748';
         $this->redis->connect($host, $port);
     }
