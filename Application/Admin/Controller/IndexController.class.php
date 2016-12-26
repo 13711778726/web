@@ -16,7 +16,7 @@ function index(){
         $this->display();
     }
     function main(){
-	$redis = new \Redis();
+	$redis = new Redis();
         $redis->set('username','redis');
         echo $redis->get('username');
         $this->display();
