@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<include file="Common:header"/>
+<title>Insert title here</title>
+</head>
+<body>
+<div class="page-header">
+     <h2>文章管理<small>->文章列表</small></h2>  
+</div>
+<div class="row">
+        <div class="col-xs-12">
+        	 <form id="tb" class="easyui-form" data-options="novalidate:true" style="margin-bottom: 10px;">
+                <table>
+                	
+                    <tr>
+                    	<td>文章分类:</td>
+                        <td>
+                            <select id="catid" class="easyui-combobox"
+                                    data-options="panelHeight:'auto',value:0">
+                                <option value="0">--请选择--</option>
+                                <foreach name="catlist" item="res">    
+                                <option value="{$res.catid}">{$res.name}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                        <td>标题:</td> 
+                        <td><input type="text" class="easyui-textbox" id="title" name="title" /></td>                                                                 
+                        <td>&emsp;
+                            <a onclick="searchGrid()" href="javascript:void(0)"
+                               class="easyui-linkbutton">查询</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <table id="grid" style="width:100%;height:600px">
+            </table>
+        </div>
+</div>
+<script type="text/javascript">	
+$('#grid').datagrid({
+    title: '文章管理',
+    method: 'get',
+    //rownumbers: true,
+    pagination: true,
+    pageSize: 20,
+    //fit:true,
+    width: '99%',
+    height: 'auto',
+    fitColumns: true,
+    iconCls:'icon-edit',
+    singleSelect:false,//是否单选
+    frozenColumns:[[ 
+         {field:'ck',checkbox:true} 
+    ]],
+    url:"{:U('Article/articleAjax')}",
+    onBeforeLoad: function (param) {
+     /* param.start = ((param.page - 1) * param.page_size) < 0 ? 0 : ((param.page - 1) * param.page_size);
+     param.limit = param.page_size; */
+    },
+    toolbar: [{ 
+        text: '添加', 
+        iconCls: 'icon-add', 
+        handler: function() { 
+        	add();
+        } 
+    },/* '-', { 
+        text: '修改', 
+        iconCls: 'icon-edit', 
+        handler: function() { 
+            openDialog("add_dialog","edit"); 
+        } 
+    }, '-',{ 
+        text: '删除', 
+        iconCls: 'icon-remove', 
+        handler: function(){ 
+            delAppInfo(); 
+        } 
+    } */],
+    columns: [
+        [
+            {title: '文章ID', field: 'articleid', width: 50, align: 'center'},            
+            {title: '标题', field: 'title', width: 100, align: 'center'},
+            {title: '分类', field: 'catname', width: 100, align: 'center'},
+            {title: '添加时间', field: 'addtime', width: 100, align: 'center'},
+            {title: '修改时间', field: 'updatetime', width: 100, align: 'center'},  
+            {title: '简介', field: 'desc', width: 150, align: 'center'},
+            {
+                title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
+                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + index + '\')"  href="javascript:void(0)">編輯</a> | ';
+                var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.articleid + '\')"  href="javascript:void(0)">刪除</a>';
+                return btn1 + btn2;
+            }
+            }
+        ]
+    ],
+});
+function searchGrid() {
+    var title = $('#title').textbox('getValue');
+    var catid = $('#catid').textbox('getValue');
+    $('#grid').datagrid('reload', {
+        title: title,
+        catid:catid
+    });
+}
+var selectRow;
+var ctrlUrl = "{:U('article/edit')}";
+function add() {
+	window.loaction.href='{:U("article/add")}';
+}
+function edit(index) {
+	window.loaction.href='{:U("article/update")}?articleid='+index;
+}
+function del(id) {
+    $.messager.confirm('刪除分类', '你確定要刪除該信息嗎?', function (r) {
+        if (r) {
+            $.post(ctrlUrl, {articleid: id, oper: 'del'}, function (data) {
+                if (data.status == 0) {
+                	$.messager.alert('删除数据','删除失败！！','error');
+                    $('#grid').datagrid('reload');
+                    return;
+                }
+                //alert('操作成功');
+                $('#grid').datagrid('reload');
+            }, 'json')
+        }
+    });
+}
+</script>
+</body>
+</html>
