@@ -15,8 +15,12 @@
 	<form action="{:U('article/update')}" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
+				<td><label class="handle-label">封面：</label></td>
+				<td><div class="handle-img"><img src="__UPLOAD__/{$article.img}" width="200"/></div></td>
+			</tr>			
+			<tr>
 				<td><label class="handle-label">上传封面：</label></td>
-				<td><input type="file" name="img" /></td>
+				<td><input type="file" name="img" /><tab style="color:red;">图片尺寸为200X200</tab></td>
 			</tr>
 			<tr>
 				<td><label class="handle-label">分类：</label></td>

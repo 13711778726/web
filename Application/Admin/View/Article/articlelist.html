@@ -48,13 +48,13 @@ $('#grid').datagrid({
     pageSize: 20,
     //fit:true,
     width: '99%',
-    height: 'auto',
+    //height: 'auto',
     fitColumns: true,
     iconCls:'icon-edit',
     singleSelect:false,//是否单选
-    frozenColumns:[[ 
+    /* frozenColumns:[[ 
          {field:'ck',checkbox:true} 
-    ]],
+    ]], */
     url:"{:U('Article/articleAjax')}",
     onBeforeLoad: function (param) {
      /* param.start = ((param.page - 1) * param.page_size) < 0 ? 0 : ((param.page - 1) * param.page_size);
@@ -81,7 +81,16 @@ $('#grid').datagrid({
     } */],
     columns: [
         [
-            {title: '文章ID', field: 'articleid', width: 50, align: 'center'},            
+            {title: '文章ID', field: 'articleid', width: 50, align: 'center'}, 
+            {
+                title: '封面图',
+                field: 'img',
+                width: 64,
+                align: 'center',
+                formatter: function (value, row, index) {
+                    return '<img src="__UPLOAD__' + value + '" width="64" heiht="36"/>';
+                }
+            },
             {title: '标题', field: 'title', width: 100, align: 'center'},
             {title: '分类', field: 'catname', width: 100, align: 'center'},
             {title: '添加时间', field: 'addtime', width: 100, align: 'center'},
@@ -89,7 +98,7 @@ $('#grid').datagrid({
             {title: '简介', field: 'desc', width: 150, align: 'center'},
             {
                 title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
-                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + index + '\')"  href="javascript:void(0)">編輯</a> | ';
+                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + row.articleid + '\')"  href="javascript:void(0)">編輯</a> | ';
                 var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.articleid + '\')"  href="javascript:void(0)">刪除</a>';
                 return btn1 + btn2;
             }

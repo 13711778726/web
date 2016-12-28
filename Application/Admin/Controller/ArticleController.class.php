@@ -37,7 +37,9 @@ class ArticleController extends Controller {
             }else{
                 $list[$key]['updatetime'] = date('Y-m-d H:i:s',$val['updatetime']);
             }
-            
+            if(empty($val['img'])){
+                $list[$key]['img'] = 'error.png';
+            }
         }
         $arr['total'] = $count;
         $arr['pageCount'] = ceil($arr['total'] / $pageSize);
@@ -71,7 +73,9 @@ class ArticleController extends Controller {
             $catid = I('request.catid',0,'int');
             $desc = I('request.desc','','string');
             $detail = $_POST['detail'];
-            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time()];
+            $imgs = upload($_FILES['img'],200,200);
+            $img = $imgs['img'][0]['savethumbname'][0];
+            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time(),'img'=>$img];
             $res = $Article->add($data);
             if($res){
                 $this->success('添加成功','articlelist');
@@ -89,20 +93,26 @@ class ArticleController extends Controller {
     public function update() {
         $articleid = I('request.articleid',0,'int');
         $Article = M('article');
+        $article = $Article->where(array('articleid'=>$articleid))->find();
         if(IS_POST){
             $title = I('request.title','','string');
             $catid = I('request.catid',0,'int');
             $desc = I('request.desc','','string');
             $detail = $_POST['detail'];
-            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid];
+            
+            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'updatetime'=>time()];
+            $imgs = upload($_FILES['img'],200,200);
+            if($imgs){
+                @unlink(UPLOAD_PATH.'Admin/'.$article['img']);
+                $data['img'] = $imgs['img'][0]['savethumbname'][0];
+            }
             $res = $Article->where(array('articleid'=>$articleid))->save($data);
             if($res){
                 $this->success('修改成功','articlelist');
             }else{
                 $this->error('修改失败');
             }
-        }else{
-            $article = $Article->where(array('articleid'=>$articleid))->find();
+        }else{           
             $this->assign('article',$article);
             $Cat = M('cat');
             $where = ['isdel'=>0];

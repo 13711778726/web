@@ -454,13 +454,13 @@ function  upload($file, $width="480px", $height="800px") {
     $upload->subType  = date;
     $upload->thumbMaxWidth = $width;
     $upload->thumbMaxHeight = $height;
-    $upload->thumbPath = UPLOAD_PATH .'/Home/';
+    $upload->thumbPath = UPLOAD_PATH .'/Admin/';
     $upload->thumbRemoveOrigin = true;
 
     //缩略图处理
     $upload->thumb = true;
     $upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');
-    $upload->savePath =  UPLOAD_PATH .'/Home/';
+    $upload->savePath =  UPLOAD_PATH .'/Admin/';
     //$res = $upload->uploadOne($file);
     //print_r($_FILES);echo "<br />";
     $res = $upload->upload();
