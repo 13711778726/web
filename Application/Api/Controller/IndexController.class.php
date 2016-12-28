@@ -11,6 +11,7 @@ class IndexController extends CommonController {
         ->where(array('cdb_article.isdel'=>0))->order('cdb_article.type DESC')->select();
         foreach ($articlelist as $k=>$v){
             $articlelist[$k]['addtime'] = timeGange($v['addtime']);
+            $articlelist[$k]['img'] = SITE_URL.'/Public/upload/Admin/'.$v['img'];
         }
         foreach ($articlelist as $key=>$val){            
             switch ($val['type']){
