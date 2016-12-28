@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/handle.css" />
+</head>
+<body>
+<div class="handle_title">添加文章</div>
+<div class="handle_content">
+<form action="{:U('article/add')}" method="post" enctype="multipart/form-data">
+	<table>
+		<tr>
+			<td><label class="handle-label">上传封面：</label></td>
+			<td><input type="file" name="img" /></td>
+		</tr>
+		<tr>
+			<td><label class="handle-label">分类：</label></td>
+			<td>
+				<div class="handle-select">
+	               <select id="catid" class="select-box">
+	                   <option value="0">--请选择--</option>
+		                   <foreach name="catlist" item="res">    
+		                   <option value="{$res.catid}">{$res.name}</option>
+		                   </foreach>
+	               </select>
+	            </div>   
+           </td>
+		</tr>
+		<tr>
+			<td><label class="handle-label">标题：</label></td>
+			<td><div class="handle-input"><input type="text" name="title" class="input-box"/></div></td>
+		</tr>
+		<tr>
+			<td><label class="handle-label">描述：</label></td>
+			<td><div class="handle-area"><textarea name="desc" class="textarea-box" cols="100" rows='8'></textarea></div></td>
+		</tr>
+		<tr>
+			<td><div class="handle-edit-area"><label class="handle-label">内容：</label></div></td>
+			<td><textarea name="desc" class="textarea-box" cols="100" rows='20'></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div class="handle-submit"><input type="submit" value="确定" class="submit-box">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="submit-box"></div></td>
+		</tr>
+	</table>
+</form>	
+</div>
+</body>
+</html>

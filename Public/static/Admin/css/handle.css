@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+.handle_title{
+	width:100%;
+	line-height:35px;
+	padding-left:10px;
+	color:#0000;
+	font-size:28px;
+}
+.handle_content{
+	padding-top:10px;
+	width:100%;
+	line-height:35px;
+	padding-left:10px;
+}
+.handle-label{
+	
+}
+.handle-select{
+	
+}
+.select-box{
+	border-radius: 4px 4px 4px 4px;
+	border: 1px solid #88b4e3;
+	height:28px;
+}
+.input-box{
+	border-radius: 4px 4px 4px 4px;
+	border: 1px solid #88b4e3;
+	height:28px;
+	width:300px;
+}
+.textarea-box{
+	border: 1px solid #88b4e3;
+}
+.handle-submit{
+	text-align:center;
+}
+.submit-box{
+	border-radius: 4px 4px 4px 4px;
+	height:36px;
+	width:80px;
+	border: 1px solid #88b4e3;
+}

@@ -67,7 +67,17 @@ class ArticleController extends Controller {
     public function add() {
         if(IS_POST){
             $Article = M('article');
-            
+            $title = I('request.title','','string');
+            $catid = I('request.catid',0,'string');
+            $desc = I('request.desc','','string');
+            $detail = $_POST['detail'];
+            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time()];
+            $res = $Article->add($data);
+            if($res){
+                $this->success('添加成功','articlelist');
+            }else{
+                $this->error('添加失败');
+            }
         }else{
             $Cat = M('cat');
             $where = ['isdel'=>0];

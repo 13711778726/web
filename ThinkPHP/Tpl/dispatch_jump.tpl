@@ -5,11 +5,10 @@
 <title>提示信息</title>
 <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="__JS__/js.js"></script>
-<script type="text/javascript" src="__JS__/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="__JS__/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="__JS__/jquery-easyui-1.5/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="__JS__/formvalidator/formValidator.js"></script>
 <script type="text/javascript" src="__JS__/formvalidator/formValidatorRegex.js"></script>
-<link rel="stylesheet" type="text/css" href="__JS__/easyui/themes/bootstrap/easyui.css" title="gray" />
+<link rel="stylesheet" type="text/css" href="__JS__/jquery-easyui-1.5/themes/default/easyui.css" title="gray" />
 <style type="text/css">
 a{color:#08c;text-decoration:none}
 a:hover,a:focus{color:#005580;text-decoration:underline}

@@ -108,10 +108,10 @@ function searchGrid() {
 var selectRow;
 var ctrlUrl = "{:U('article/edit')}";
 function add() {
-	window.loaction.href='{:U("article/add")}';
+	window.location.href='{:U("Article/add")}';
 }
 function edit(index) {
-	window.loaction.href='{:U("article/update")}?articleid='+index;
+	window.location.href='{:U("article/update")}?articleid='+index;
 }
 function del(id) {
     $.messager.confirm('刪除分类', '你確定要刪除該信息嗎?', function (r) {
