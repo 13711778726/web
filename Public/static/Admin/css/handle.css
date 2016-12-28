@@ -1,4 +1,10 @@
 @CHARSET "UTF-8";
+.handle-main{
+	padding:0px;
+	margin:0px;
+	min-width:1075px;
+	overflow-x:hidden;
+}
 .handle_title{
 	width:100%;
 	line-height:35px;
@@ -27,12 +33,13 @@
 	border-radius: 4px 4px 4px 4px;
 	border: 1px solid #88b4e3;
 	height:28px;
-	width:300px;
+	width:500px;
 }
 .textarea-box{
 	border: 1px solid #88b4e3;
 }
 .handle-submit{
+	padding:20px 0;
 	text-align:center;
 }
 .submit-box{

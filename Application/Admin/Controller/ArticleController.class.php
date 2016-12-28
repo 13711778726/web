@@ -68,7 +68,7 @@ class ArticleController extends Controller {
         if(IS_POST){
             $Article = M('article');
             $title = I('request.title','','string');
-            $catid = I('request.catid',0,'string');
+            $catid = I('request.catid',0,'int');
             $desc = I('request.desc','','string');
             $detail = $_POST['detail'];
             $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time()];
@@ -90,9 +90,24 @@ class ArticleController extends Controller {
         $articleid = I('request.articleid',0,'int');
         $Article = M('article');
         if(IS_POST){
-            
+            $title = I('request.title','','string');
+            $catid = I('request.catid',0,'int');
+            $desc = I('request.desc','','string');
+            $detail = $_POST['detail'];
+            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid];
+            $res = $Article->where(array('articleid'=>$articleid))->save($data);
+            if($res){
+                $this->success('修改成功','articlelist');
+            }else{
+                $this->error('修改失败');
+            }
         }else{
             $article = $Article->where(array('articleid'=>$articleid))->find();
+            $this->assign('article',$article);
+            $Cat = M('cat');
+            $where = ['isdel'=>0];
+            $list=$Cat->where($where)->select();
+            $this->assign('catlist',$list);
             $this->display();
         }
     }
