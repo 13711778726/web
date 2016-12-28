@@ -44,10 +44,11 @@
         <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
             <table cellpadding="5">               
                 <tr>
-                    <td><input type="radio" name="type" value='0' />最新</td>
+                    <td><input type="radio" name="type" value='0' />普通</td>
                     <td><input type="radio" name="type" value='1' />热门</td>
                     <td><input type="radio" name="type" value='2' />精华</td>
                     <td><input type="radio" name="type" value='3' />推荐</td>
+                    <td><input type="radio" name="type" value='4' />置顶</td>
                 </tr> 
                 <input type="hidden" name="articleid" />	                                                           
             </table>
@@ -114,7 +115,7 @@ $('#grid').datagrid({
             {
                 title: '类型', field: 'type', width: 100, align: 'center', formatter: function (value, row, index) {
                 if (value == 0) {
-                    return "最新";
+                    return "普通";
                 }
                 if (value == 1) {
                     return "热门";
@@ -124,6 +125,9 @@ $('#grid').datagrid({
                 }
                 if (value == 3) {
                     return "推荐";
+                }
+                if (value == 4) {
+                    return "置顶";
                 }
                 }
             },
