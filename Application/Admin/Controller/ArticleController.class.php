@@ -53,10 +53,13 @@ class ArticleController extends Controller {
         $return = ['status'=>0,'info'=>'','data'=>array()];
         $oper = I('request.oper','','string');           
         $articleid = I('request.articleid',0,'int');
+        $type = I('request.type',0,'int');
         $Article = M('article');
         if($oper == 'del'){
             $res = $Article->where(array('articleid'=>$articleid))->save(array('isdel'=>1));
-        }
+        }else{
+            $res = $Article->where(array('articleid'=>$articleid))->save(array('type'=>$type));
+        }        
         if($res){
             $return['status'] = 1;
             $return['info'] = '操作成功';

@@ -39,6 +39,24 @@
             </table>
         </div>
 </div>
+<div id="window" class="easyui-window" style="padding: 10px"
+         data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">
+        <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
+            <table cellpadding="5">               
+                <tr>
+                    <td><input type="radio" name="type" value='0' />最新</td>
+                    <td><input type="radio" name="type" value='1' />热门</td>
+                    <td><input type="radio" name="type" value='2' />精华</td>
+                    <td><input type="radio" name="type" value='3' />推荐</td>
+                </tr> 
+                <input type="hidden" name="articleid" />	                                                           
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+        </div>
+</div>
 <script type="text/javascript">	
 $('#grid').datagrid({
     title: '文章管理',
@@ -93,14 +111,31 @@ $('#grid').datagrid({
             },
             {title: '标题', field: 'title', width: 100, align: 'center'},
             {title: '分类', field: 'catname', width: 100, align: 'center'},
+            {
+                title: '类型', field: 'type', width: 100, align: 'center', formatter: function (value, row, index) {
+                if (value == 0) {
+                    return "最新";
+                }
+                if (value == 1) {
+                    return "热门";
+                }
+                if (value == 2) {
+                    return "精华";
+                }
+                if (value == 3) {
+                    return "推荐";
+                }
+                }
+            },
             {title: '添加时间', field: 'addtime', width: 100, align: 'center'},
             {title: '修改时间', field: 'updatetime', width: 100, align: 'center'},  
             {title: '简介', field: 'desc', width: 150, align: 'center'},
             {
-                title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
+                title: '操作', field: 'opt', width: 120, align: 'center', formatter: function (value, row, index) {
+                var btn = '<a class="easyui-linkbutton" onclick="sign(\'' + row.articleid + '\',\'' + row.type + '\')"  href="javascript:void(0)">标记</a> | ';
                 var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + row.articleid + '\')"  href="javascript:void(0)">編輯</a> | ';
                 var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.articleid + '\')"  href="javascript:void(0)">刪除</a>';
-                return btn1 + btn2;
+                return btn + btn1 + btn2;
             }
             }
         ]
@@ -122,6 +157,14 @@ function add() {
 function edit(index) {
 	window.location.href='{:U("article/update")}?articleid='+index;
 }
+function sign(index,type=0){
+	$('#window').window({
+        title: "标记文章"
+    });
+    $(":radio[name='type'][value='" + type + "']").prop("checked", "checked");
+    $("input[name='articleid']").val(index);
+    $('#window').window('open');
+}
 function del(id) {
     $.messager.confirm('刪除分类', '你確定要刪除該信息嗎?', function (r) {
         if (r) {
@@ -136,6 +179,33 @@ function del(id) {
             }, 'json')
         }
     });
+}
+function submitForm() {
+    $('#ff').form('submit', {
+        url: ctrlUrl,
+        onSubmit: function (param) {
+            if (selectRow != null) {
+                param.articleid = selectRow.articleid;
+                param.oper = 'edit';
+            } else {
+                param.oper = 'add';
+            }	
+            return $(this).form('enableValidation').form('validate');
+        },
+        success: function (data) {
+            if (data.status == 0) {
+            	$.messager.alert('修改数据','修改失败！！','error');
+                return;
+            }
+            //$.messager.alert('修改数据','修改成功！！','info');
+            $('#window').window('close');
+            $('#grid').datagrid('reload');
+            clearForm();
+        }
+    });
+}
+function clearForm() {
+    $('#ff').form('clear');
 }
 </script>
 </body>
