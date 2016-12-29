@@ -8,7 +8,8 @@ class CommonController extends Controller{
     protected $redis = null;
     protected $token = null;
     protected $userid = null;
-	public function _initialize() {	        
+	public function _initialize() {	
+	        $this->redis = new Redis();
 			self::authcode();	
 	}
 	public function authcode(){
@@ -18,18 +19,17 @@ class CommonController extends Controller{
 	/*检测用户*
 	 */
 	public function isLogin() {
-	    //判断是否登录
-	    $this->redis = new Redis();
+	    //判断是否登录	    
 		$key = $this->redisName.$this->userid;
-		$token = $this->redis->get($key);	
-		if($token == $this->token){
+		$token = $this->redis->get($key);
+		if($token == $this->token&&$this->token!= ''){
 		    //验证成功
-		    $this->redis->set($key, $token, 86400 * 7);
-		    $this->return['status'] = 1;			    
+		    $this->redis->set($key, $token, 86400 * 7);		    
 		}else{
 		    $this->return['info'] = '验证失败';
+		    $this->ajaxReturn($this->return);
 		}
-		$this->ajaxReturn($this->return);
+		
 	}
 	
 	public function _empty(){

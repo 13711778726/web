@@ -54,4 +54,82 @@ class UserController extends CommonController {
         }
         $this->ajaxReturn($this->return);
     } 
+    //用户中心
+    public function userinfo(){
+        $user = M('user');
+        $arr = [];
+        $this->isLogin();
+        //用户信息
+        $res = $user->where(array('userid'=>$this->userid))->find();
+        //用户其它信息
+        
+        $arr['userinfo'] = $res;
+        $this->return['status'] = 1;
+        $this->return['info'] = '用户信息';
+        $this->return['data'] = $arr;
+        $this->ajaxReturn($this->return);
+    }
+    //修改密码
+    public function editpass(){
+        $user = M('user');
+        $this->isLogin();
+        $username = I('request.username','','string');
+        $oldpassword = I('request.oldpassword','','string');
+        $newpassword = I('request.newpassword','','string');
+        $userinfo = $user->where(array('userid'=>$this->userid))->find();
+        if($username != $userinfo['username']){
+            $this->return['info'] = '账号错误';
+            $this->ajaxReturn($this->return);
+        }
+        if($oldpassword != $userinfo['password']){
+            $this->return['info'] = '您输入的旧密码不一致';
+            $this->ajaxReturn($this->return);
+        }
+        $data = ['password'=>$newpassword];
+        $res = $user->where(array('userid'=>$this->userid))->save($data);
+        if($res){
+            $this->return['status'] = 1;
+            $this->return['info'] = '修改密码成功';
+        }else{
+            $this->return['info'] = '修改失败，请重试';
+        }
+        $this->ajaxReturn($this->return);
+    }
+    //修改个人信息
+    public function edituserinfo() {
+        $user = M('user');
+        $this->isLogin();
+        $email = I('request.email','','string');
+        $sex = I('request.sex',-1,'int');
+        $nickname = I('request.nickname','','string');
+        $desc = I('request.desc','','string');
+        if(!empty($email)){
+            $data['email'] = $email;
+        }
+        if(!empty($nickname)){
+            $data['nickname'] = $nickname;
+        }
+        if(!empty($desc)){
+            $data['desc'] = $desc;
+        }
+        if($sex != -1){
+            $data['sex'] = $sex;
+        }
+        $imgs = upload($_FILES['userimg'],200,200);
+        if($imgs){
+            $data['userimg'] = $imgs['img'][0]['savethumbname'][0];
+        }
+        if(empty($data)){
+            $this->return['info'] = '不做任何修改';
+            $this->ajaxReturn($this->return);
+        }
+        $res = $user->where(array('userid'=>$this->userid))->save($data);
+        if($res){
+            $this->return['status'] = 1;
+            $this->return['info'] = '修改个人信息成功';
+        }else {
+            $this->return['info'] = '修改个人信息失败';
+        }
+        $this->ajaxReturn($this->return);
+    }
 }
