@@ -9,7 +9,18 @@ function chenkPhone($mobile) {
 	     return false;
 	}
 }
-
+/*
+ * 正则替换内容中的图片
+ */
+function  filcontent($content){
+    $match_count = preg_match_all ( "/<img\s+src=[\\\'| \\\"](.*?(?:[\.gif|\.jpg]))[\\\'|\\\"].*?[\/]?>/", $content, $matchs );
+    $img='';
+    for($i=0;$i<$match_count;$i++){
+        $content = str_replace ( $matchs [0] [$i], $img, $content );
+        $content = str_replace ( "&nbsp;"," ", $content );
+    }
+    return $content;
+}
 /**
 
 * 判断管理员对某一个操作是否有权限。
