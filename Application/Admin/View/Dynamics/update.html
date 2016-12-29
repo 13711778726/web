@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/handle.css" />
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__JS__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__JS__/ueditor/ueditor.all.js"></script>
+</head>
+<body>
+<div class="handle-main">
+	<div class="handle_title">编辑内容</div>
+	<div class="handle_content">
+	<form action="{:U('dynamics/update')}" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label class="handle-label">分类：</label></td>
+				<td>
+					<div class="handle-select">
+		               <select id="catid" class="select-box" name="tagid">
+		                   <option value="0">--请选择--</option>
+			                   <foreach name="taglist" item="res">    
+			                   <option value="{$res.tid}" <eq name="res.tid" value="$info.tagid">selected="selected"</eq>>{$res.name}</option>
+			                   </foreach>
+		               </select>
+		            </div>   
+	           </td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">标题：</label></td>
+				<td><div class="handle-input"><input type="text" name="title" class="input-box" value="{$info.title}"/></div></td>
+			</tr>
+			<tr>
+				<td><div class="handle-edit-area"><label class="handle-label">内容：</label></div></td>
+				<td><textarea name="content" class="textarea-box" id="editor" cols="100" rows='20'>{$info.content}</textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2"><div class="handle-submit"><input type="submit" value="确定" class="submit-box">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="submit-box"></div></td>
+			</tr>
+		</table>
+		<input type="hidden" name="dyid" value="{$info.dyid}">
+	</form>	
+	<script>
+		UE.getEditor('editor',{initialFrameHeight:350,autoHeightEnabled:false,initialFrameWidth:900});
+	</script>
+	</div>
+</div>
+</body>
+</html>

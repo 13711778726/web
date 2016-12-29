@@ -67,8 +67,12 @@ class DynamicsController extends Controller {
         $count = $Dynamics->count();
         $page = I('request.page',1,'int');
         $title = I('request.title','','string');
+        $tagid = I('request.tagid',0,'int');
         if(!empty($title)){
             $where['cdb_dynamicsinfo.title'] = array('like',"%$title%");
+        }
+        if($tagid != 0){
+            $where['cdb_dynamicsinfo.tagid'] = $tagid;
         }
         $pageSize = I('request.rows',20,'int');
         $list=$Dynamics
@@ -82,7 +86,7 @@ class DynamicsController extends Controller {
             }
             $list[$key]['content'] = filcontent($val['content']);
             $list[$key]['content'] = strip_tags($list[$key]['content']);
-            $list[$key]['content'] = mb_zw_string($list[$key]['content'],120);
+            $list[$key]['content'] = mb_zw_string($list[$key]['content'],30);
             $list[$key]['addtime'] = date('Y-m-d H:i:s',$val['addtime']);
         }
         $arr['total'] = $count;
@@ -107,9 +111,9 @@ class DynamicsController extends Controller {
             $dys = M('dynamics');
             $rs = $dys->add($val);
         }else if($oper == 'edit'){
-            $res = $Dynamics->where(array('tid'=>$tid))->save($data);
+            $res = $Dynamics->where(array('tid'=>$dyid))->save($data);
         }else{
-            $res = $Dynamics->where(array('tid'=>$tid))->save(array('isdel'=>1));
+            $res = $Dynamics->where(array('tid'=>$dyid))->save(array('isdel'=>1));
         }
         if($res){
             $return['status'] = 1;
@@ -118,5 +122,51 @@ class DynamicsController extends Controller {
             $return['info'] = '操作失败';
         }
         return $this->ajaxReturn($return);
+    }
+    public function add() {
+        if(IS_POST){
+            $Dynamics = M('dynamicsinfo');
+            $title = I('request.title','','string');
+            $tagid = I('request.tagid',0,'int');
+            $content = $_POST['content'];
+            $data = ['title'=>$title,'content'=>$content,'tagid'=>$tagid,'addtime'=>time()];
+            $res = $Dynamics->add($data);
+            if($res){
+                $this->success('添加成功','dylist');
+            }else{
+                $this->error('添加失败');
+            }
+        }else{
+            $where = ['isdel'=>0];
+            $Tag = M('tag');
+            $list=$Tag->where($where)->select();
+            $this->assign('taglist',$list);
+            $this->display();
+        }
+    }
+    public function update() {
+        $dyid = I('request.dyid',0,'int');
+        $Dynamics = M('dynamicsinfo');
+        $info = $Dynamics->where(array('dyid'=>$dyid))->find();
+        if(IS_POST){
+            $title = I('request.title','','string');
+            $tagid = I('request.tagid',0,'int');
+            $content = $_POST['content'];   
+            $data = ['title'=>$title,'content'=>$content,'tagid'=>$tagid];
+            
+            $res = $Dynamics->where(array('dyid'=>$dyid))->save($data);
+            if($res){
+                $this->success('修改成功','dylist');
+            }else{
+                $this->error('修改失败');
+            }
+        }else{
+            $where = ['isdel'=>0];
+            $this->assign('info',$info);
+            $Tag = M('tag');
+            $list=$Tag->where($where)->select();
+            $this->assign('taglist',$list);
+            $this->display();
+        }
     }
 }
