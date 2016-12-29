@@ -97,22 +97,10 @@ class DynamicsController extends Controller {
     //操作数据
     function dyedit(){
         $return = ['status'=>0,'info'=>'','data'=>array()];
-        $oper = I('request.oper','','string');
-        $title = I('request.title','','string');
-        $dyid = I('request.dyid',0,'int');
-        $tagid = I('request.tagid',0,'int');
-        $content = $_POST['content'];
-        $Dynamics = M('dynamicsinfo');
-        $data = ['title'=>$title,'content'=>$content,'tagid'=>$tagid];
-        if($oper == 'add'){
-            $data['addtime'] = time();
-            $res = $Dynamics->add($data);
-            $val = ['dyid'=>$res,'addtime'=>$data['addtime']];
-            $dys = M('dynamics');
-            $rs = $dys->add($val);
-        }else if($oper == 'edit'){
-            $res = $Dynamics->where(array('tid'=>$dyid))->save($data);
-        }else{
+        $oper = I('request.oper','','string');       
+        $dyid = I('request.dyid',0,'int');        
+        $Dynamics = M('dynamicsinfo');        
+        if($oper == 'del'){          
             $res = $Dynamics->where(array('tid'=>$dyid))->save(array('isdel'=>1));
         }
         if($res){
