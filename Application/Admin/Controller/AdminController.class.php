@@ -3,7 +3,7 @@ namespace Admin\Controller;
 use Think\Controller;
 class AdminController extends Controller {
     //引入模版
-    function adminlist(){
+    function adminlist(){       
         $this->display();
     }
     //数据加载
@@ -23,6 +23,9 @@ class AdminController extends Controller {
         }
         $pageSize = I('request.rows',20,'int');
         $list=$AdminUser->where($where)->page($page, $pageSize)->select();
+        foreach ($list as $key=>$val){
+            $list[$key]['password'] = '******';
+        }
         $arr['total'] = $count;
         $arr['pageCount'] = ceil($arr['total'] / $pageSize);
         $arr['rows'] = $list;
@@ -38,7 +41,10 @@ class AdminController extends Controller {
         $email = I('request.email','','string');
         $id = I('request.id',0,'int');
         $AdminUser = M('admin_user');
-        $data = ['name'=>$name,'password'=>$password,'tel'=>$tel,'email'=>$email];
+        $data = ['name'=>$name,'password'=>authcode($password,'ENCODE'),'tel'=>$tel,'email'=>$email];
+        if(empty($password)){
+            unset($data['password']);
+        }
         if($oper == 'add'){
             $res = $AdminUser->add($data);
         }else if($oper == 'edit'){

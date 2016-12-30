@@ -15,13 +15,6 @@
         	 <form id="tb" class="easyui-form" data-options="novalidate:true" style="margin-bottom: 10px;">
                 <table>
                     <tr>
-                        <!-- <td>所属活动:</td>
-                        <td>
-                            <select id="type" class="easyui-combobox"
-                                    data-options="panelHeight:'auto',value:2">
-                                <option value="2">投票活动</option>
-                            </select>
-                        </td> -->
                         <td>账户名称:</td> 
                         <td><input type="text" class="easyui-textbox" id="name" name="name" /></td>                     
                         <td>手机号码:</td> 
@@ -40,34 +33,7 @@
 <div id="window" class="easyui-window" style="padding: 10px"
          data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">
         <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
-            <table cellpadding="5">
-                <!-- <tr>
-                    <td>所属活动:</td>
-                    <td colspan="3" style="padding: 5px 0;">
-                        <select class="easyui-combobox" name="type" data-options="panelHeight:'auto',required:true,editable:false">
-                            <option value="2">投票活动</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>投票类型:</td>
-                    <td colspan="3" style="padding: 5px 0;">
-                        <select class="easyui-combobox" name="objectType" data-options="panelHeight:'auto',required:true,editable:false">
-                            <option value="1">up主</option>
-                            <option value="2">视频</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>状态:</td>
-                    <td colspan="3" style="padding: 5px 0;">
-                        <select class="easyui-combobox" name="status" data-options="panelHeight:'auto',required:true,editable:false">
-                            <option value="1">正常</option>
-                            <option value="2">异常</option>
-                            <option value="3">系统票</option>
-                        </select>
-                    </td>
-                </tr> -->                
+            <table cellpadding="5">               
                 <tr>
                     <td>账户名称:</td>
                     <td colspan="3" style="padding: 5px 0;">
@@ -78,8 +44,8 @@
                 <tr>
                     <td>密码:</td>
                     <td colspan="3" style="padding: 5px 0;">
-                        <input class="easyui-textbox" name="password"
-                               data-options="required:true"/>
+                        <input class="easyui-textbox" id="password" name="password"
+                               data-options="required:false"/>
                     </td>
                 </tr>              
                 <tr>
@@ -183,9 +149,10 @@ function edit(index) {
     $('#window').window({
         title: "編輯账户"
     });
-    selectRow = $('#grid').datagrid('getSelected'); //此处竟然传引用。
+    selectRow = $('#grid').datagrid('getSelected'); //此处竟然传引用。   
     //$('#img').attr('src', selectRow.img);
     $('#ff').form('load', selectRow);
+    $('#password').textbox('setValue','');
     $('#window').window('open');
 }
 function del(id) {
