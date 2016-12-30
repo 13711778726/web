@@ -16,7 +16,7 @@ class UserController extends CommonController {
             $this->return['status'] = 1;
             $this->return['data'] = $res;
         }else{
-            $this->return['info'] = '验证失败';
+            $this->return['info'] = '用户名或密码错误';
         }
         $this->ajaxReturn($this->return);
     }
@@ -54,19 +54,120 @@ class UserController extends CommonController {
         }
         $this->ajaxReturn($this->return);
     } 
-    //用户中心
+    //用户中心(主客态)
     public function userinfo(){
-        $user = M('user');
         $arr = [];
-        $this->isLogin();
-        //用户信息
-        $res = $user->where(array('userid'=>$this->userid))->find();
-        //用户其它信息
-        
-        $arr['userinfo'] = $res;
+        $isself = 0;
+        //用户信息               
+        $userinfo = $this->getuserinfo();
+        if($userinfo['userid'] == $this->userid){$isself = 1;}
+        $arr['isself'] = $isself;
+        $arr['userinfo'] = $userinfo;
         $this->return['status'] = 1;
         $this->return['info'] = '用户信息';
         $this->return['data'] = $arr;
+        $this->ajaxReturn($this->return);
+    }
+    //我的好友列表
+    public function myfriend(){
+        $page = I('request.page',1,'int');
+        $rows = I('request.rows',10,'int');
+        $arr = [];
+        $this->isLogin();
+        $friend = M('friend');
+        $where = array('cdb_friend.userid'=>$this->userid,'cdb_friend.isdel'=>0);
+        $res = $friend->field('cdb_friend.ruserid,u.username,u.nickname,u.userimg,u.addtime')
+        ->join('LEFT JOIN cdb_user u ON u.userid = cdb_friend.ruserid')
+        ->where($where)->page($page, $rows)->select();
+        if(empty($res)){
+            $this->return['info'] = '列表为空';
+            $this->ajaxReturn($this->return);
+        }
+        foreach ($res as $key=>$val){
+            if(!empty($val['userimg'])){
+                $res[$key]['userimg'] = SITE_URL.'/Public/upload/Admin/'.$val['userimg'];
+            }else{
+                $res[$key]['userimg'] = SITE_URL.'/Public/upload/Admin/error.png';
+            }
+            $res[$key]['addtime'] = timeGange($val['addtime']);
+        }
+        $this->return['status'] = 1;
+        $this->return['info'] = '好友列表';
+        $this->return['data'] = $res;
+        $this->ajaxReturn($this->return);
+        
+    }
+    //添加好友
+    public function addfriend(){
+        $this->isLogin();
+        $friend = M('friend');
+        $ruserid = I('request.ruserid',0,'int');
+        if($ruserid == 0){
+            $this->return['info'] = '请选择要添加的好友';
+            $this->ajaxReturn($this->return);
+        }
+        $data = ['userid'=>$this->userid,'ruserid'=>$ruserid,'addtime'=>time()];
+        $res = $friend->add($data);
+        if($res){
+            $this->return['status'] = 1;
+            $this->return['info'] = '添加成功';
+            $this->ajaxReturn($this->return);
+        }else{
+            $this->return['info'] = '添加失败';
+            $this->ajaxReturn($this->return);
+        }
+    }
+    //删除好友
+    public function delfriend(){
+        $this->isLogin();
+        $friend = M('friend');
+        $ruserid = I('request.ruserid',0,'int');
+        if($ruserid == 0){
+            $this->return['info'] = '请选择要删除的好友';
+            $this->ajaxReturn($this->return);
+        }
+        $res = $friend->where(array('userid'=>$this->userid,'ruserid'=>$ruserid))->setField('isdel',1);
+        if($res){
+            $this->return['status'] = 1;
+            $this->return['info'] = '删除成功';
+            $this->ajaxReturn($this->return);
+        }else{
+            $this->return['info'] = '删除失败';
+            $this->ajaxReturn($this->return);
+        }
+    }
+    //社区用户
+    public function usergroup(){
+        $page = I('request.page',1,'int');
+        $rows = I('request.rows',10,'int');
+        $user = M('user');
+        $type = I('request.type',0,'int');
+        $selectinfo = I('request.selectinfo','');
+        
+        if($type == 0){
+            $where['userid'] = $selectinfo; 
+        }elseif($type == 1){
+            $where['username'] = $selectinfo;
+        }elseif($type == 2){
+            $where['nickname'] = array('like',"%$selectinfo%");
+        }
+        
+        $info = $user->field('userid,username,userimg,nickname')->where($where)->page($page,$rows)->select();
+        if(empty($info)){
+            $this->return['status'] = 1;
+            $this->return['info'] = '列表为空';
+            $this->ajaxReturn($this->return);
+        }
+        foreach ($info as $key=>$val){
+            if(!empty($info['userimg'])){
+    	        $info['userimg'] = SITE_URL.'/Public/upload/Admin/'.$info['userimg'];
+    	    }else{
+    	        $info['userimg'] = SITE_URL.'/Public/upload/Admin/error.png';
+    	    } 
+        }
+        $this->return['status'] = 1;
+        $this->return['info'] = '搜索列表';
+        $this->return['data'] = $info;
         $this->ajaxReturn($this->return);
     }
     //修改密码
