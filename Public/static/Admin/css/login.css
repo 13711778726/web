@@ -8,7 +8,7 @@ body{
 	height:300px;
 	background:#fff;
 	border:8px solid #928e89;
-	position:absolute;top:50%;left:50%;margin:-250px 0 0 -180px;
+	position:absolute;top:50%;left:50%;margin:-250px 0 0 -182px;
 }
 .table-box{
 	margin:0 auto;
@@ -21,13 +21,14 @@ body{
 }
 .login-input{
 	height:28px;
+	width:220px;
 }
 .cod-input{
 	height:28px;
 	width:80px;
 }
 .button-div{
-	margin-top:20px;
+	margin-top:40px;
 }
 .login-button{
 	width:150px;

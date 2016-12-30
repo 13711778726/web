@@ -8,9 +8,7 @@ class ToolController extends Controller {
 	 */
 	public function login($info = array()) {
 	            if(IS_POST){
-	                $return=array('status'=>0,'info'=>'','data'=>array());
-	                $chknum = I('post.chknum');
-	                if ($chknum == session("validate")) {
+	                    $return=array('status'=>0,'info'=>'','data'=>array());
 	                    $AdminUser = M('admin_user');
 	                    $data['name'] = I('post.username');
 	                    $password = I('post.password');
@@ -32,12 +30,6 @@ class ToolController extends Controller {
 	                        $return['info']='账户或密码错误';
 	                        $this->ajaxReturn($return);	              
 	                    }
-	                }
-	                else {
-	                    $return['status']=0;
-	                    $return['info']='验证码错误';
-	                    $this->ajaxReturn($return);
-	                }
 	            }else{
 	                $this->display();
 	            }	              

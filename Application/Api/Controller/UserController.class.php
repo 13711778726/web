@@ -45,6 +45,7 @@ class UserController extends CommonController {
             $key = $key = $this->redisName.$re;
             $token = getKeyString(32);
             $this->redis->set($key, $token, 86400 * 7);
+            $data['userid'] = $re;
             $data['token'] = $token;
             $this->return['status'] = 1;
             $this->return['info'] = '注册成功';
