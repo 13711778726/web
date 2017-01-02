@@ -105,18 +105,21 @@ function admin_priv($priv_str, $msg_type = '' , $msg_output = true,$priv='')
         return true;
     }
 }
-/*
- * 获得商家下级商家列表
+/**
+ * 下级管理员列表
+ * @param unknown $acct_id
+ * @param unknown $n
+ * @return multitype:unknown
  */
 function getlist_agents_child( $acct_id, $n = -1 )
 {
     static $sort_array = array();
-    $mode=session('acctinfo.mode');
-    $acctDb = M("merchant");
-    $res = $acctDb->field('id, mer_name')->where("agent_id=".$acct_id)->where(array('cancel'=>1))->select();
+    $mode=session('admininfo.mode');
+    $acctDb = M("admin_user");
+    $res = $acctDb->field('id, name')->where("agent_id=".$acct_id)->where(array('isdel'=>0))->select();
     ++$n;
     foreach ($res as $key=>$val) {
-        $val['mer_name'] = str_repeat('&nbsp;', 4*$n) . $val['mer_name'];
+        $val['name'] = str_repeat('&nbsp;', 4*$n) . $val['name'];
         $val['decode_id'] = base64_encode($val['id']);
 
         $sort_array[] = $val;

@@ -2,11 +2,13 @@
 namespace Admin\Controller;
 class AdminController extends CommonController{
     //引入模版
-    function adminlist(){       
+    function adminlist(){  
+        $acctlist = getlist_agents_child($this->session_id);
+        $this->assign('acctlist',$acctlist);
         $this->display();
     }
     //数据加载
-    function adminlistAjax(){
+    function adminlistAjax(){       
         $arr = [];
         $where = [];
         $AdminUser = M('admin_user');
@@ -44,7 +46,10 @@ class AdminController extends CommonController{
         if(empty($password)){
             unset($data['password']);
         }
+        $acctid = $AdminUser->where(array('mode'=>0))->getField('id');
         if($oper == 'add'){
+            $data['mode'] = 1;
+            $data['agent_id'] = $acctid;
             $res = $AdminUser->add($data);
         }else if($oper == 'edit'){
             $res = $AdminUser->where(array('id'=>$id))->save($data);
@@ -58,5 +63,33 @@ class AdminController extends CommonController{
             $return['info'] = '操作失败';
         }
         return $this->ajaxReturn($return);
+    }
+    public function menu(){
+        $this->display();
+    }
+    public function menuAjax(){
+        $parents = M('menu')->where(array('parentid'=>0))->select();
+        $childs = M('menu')->where('parentid!=0')->select();
+        
+        $menu =[];
+        foreach ($parents as $key=>$val){
+        
+            foreach ($childs as $k=>$v) {
+                switch ($v['parentid']){
+                    case $val['id'] :
+                        $parents[$key]['items'][] = array('id'=>$v['id'],'name'=>$v['name'],'href'=>$v['href']);
+                        break;
+                    default:break;
+                }
+            }
+            unset($parents[$key]['textId']);
+            unset($parents[$key]['parentId']);
+            unset($parents[$key]['name']);
+            unset($parents[$key]['href']);
+        }
+        $arr['total'] = $count;
+        $arr['pageCount'] = ceil($arr['total'] / $pageSize);
+        $arr['rows'] = $list;
+        return $this->ajaxReturn($arr);
     }
 }
