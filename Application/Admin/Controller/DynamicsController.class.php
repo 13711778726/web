@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class DynamicsController extends Controller {
+class DynamicsController extends CommonController {
     //模板
     public function taglist() {
         $this->display();

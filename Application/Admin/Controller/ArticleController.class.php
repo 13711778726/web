@@ -1,7 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
-class ArticleController extends Controller {
+class ArticleController extends CommonController {
     //分类模板
     public function articlelist() {
         $Cat = M('cat');

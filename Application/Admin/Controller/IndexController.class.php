@@ -1,8 +1,7 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
 use Think\Cache\Driver\Redis;
-class IndexController extends Controller {
+class IndexController extends CommonController {
 function index(){
         $this->display();
     }

@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class CatController extends Controller {
+class CatController extends CommonController {
     //分类模板
     public function catlist() {
         $this->display();

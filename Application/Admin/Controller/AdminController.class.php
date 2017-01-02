@@ -1,7 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Think\Controller;
-class AdminController extends Controller {
+class AdminController extends CommonController{
     //引入模版
     function adminlist(){       
         $this->display();
