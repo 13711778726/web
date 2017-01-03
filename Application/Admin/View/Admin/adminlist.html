@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/handle.css" />
 <include file="Common:header"/>
 <title>Insert title here</title>
 </head>
@@ -68,7 +69,27 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
         </div>
-    </div>
+</div>
+<div id="priv" class="easyui-window" style="padding: 10px"
+         data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">        
+        <div class="priv-box">
+        	<div class="priv-list">
+        		<div class="priv-title"><label>模块一</label></div>
+        		<div class="priv-main">
+        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div> 
+        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div>
+        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div>       			       			     			
+        		</div>
+        	</div> 
+        	<div class="priv-list">
+        		<div class="priv-title"><label>模块一</label></div>
+        		<div class="priv-main">
+        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div> 
+        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div>     			       			     			
+        		</div>
+        	</div>      	
+        </div>         
+</div>
 <script type="text/javascript">	
 $('#grid').datagrid({
     title: '帐号管理',
@@ -118,9 +139,10 @@ $('#grid').datagrid({
             {title: '电话', field: 'tel', width: 100, align: 'center'},
             {
                 title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
+                var btn = '<a class="easyui-linkbutton" onclick="priv(\'' + row.id + '\')"  href="javascript:void(0)">权限</a> | '; 	
                 var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + index + '\')"  href="javascript:void(0)">編輯</a> | ';
                 var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.id + '\')"  href="javascript:void(0)">刪除</a>';
-                return btn1 + btn2;
+                return btn + btn1 + btn2;
             }
             }
         ]
@@ -193,6 +215,12 @@ function submitForm() {
             clearForm();
         }
     });
+}
+function priv(id){
+	$('#priv').window({
+        title: "账户权限"
+    });
+    $('#priv').window('open');
 }
 function clearForm() {
     $('#ff').form('clear');

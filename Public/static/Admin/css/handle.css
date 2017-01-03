@@ -48,3 +48,21 @@
 	width:80px;
 	border: 1px solid #88b4e3;
 }
+.input-checkbox{
+	width:13px; height:13px;vertical-align:middle;_vertical-align:bottom; margin-top:0;
+}
+.priv-list{
+	line-height:30px;
+}
+.priv-title{
+	width:80px;
+	float:left;
+}
+.priv-main{
+	width:200px;
+	float:left;
+}
+.priv-main-box{
+	width:100px;
+	float:left;
+}
