@@ -68,28 +68,40 @@ class AdminController extends CommonController{
         $this->display();
     }
     public function menuAjax(){
-        $parents = M('menu')->where(array('parentid'=>0))->select();
-        $childs = M('menu')->where('parentid!=0')->select();
-        
-        $menu =[];
-        foreach ($parents as $key=>$val){
-        
-            foreach ($childs as $k=>$v) {
-                switch ($v['parentid']){
-                    case $val['id'] :
-                        $parents[$key]['items'][] = array('id'=>$v['id'],'name'=>$v['name'],'href'=>$v['href']);
-                        break;
-                    default:break;
-                }
+        $arr = [];
+        $where['isdel'] = 0;
+        $list = M('menu')->field('id,name,parentid as _parentId,parentid as pid,url,status')->where($where)->page(1, 100)->select();  
+        foreach ($list as $key=>$val){
+            if($val['_parentId'] == 0){
+                unset($list[$key]['_parentId']);
             }
-            unset($parents[$key]['textId']);
-            unset($parents[$key]['parentId']);
-            unset($parents[$key]['name']);
-            unset($parents[$key]['href']);
         }
-        $arr['total'] = $count;
-        $arr['pageCount'] = ceil($arr['total'] / $pageSize);
         $arr['rows'] = $list;
         return $this->ajaxReturn($arr);
+    }
+    //操作数据
+    function menuedit(){
+        $return = ['status'=>0,'info'=>'','data'=>array()];
+        $oper = I('request.oper','','string');
+        $name = I('request.name','','string');
+        $id = I('request.id',0,'int');
+        $url = I('request.url','','string');
+        $parentid = I('request._parentId',0,'int');
+        $Menu = M('menu');
+        $data = ['name'=>$name,'url'=>$url,'parentid'=>$parentid];
+        if($oper == 'add'){
+            $res = $Menu->add($data);
+        }else if($oper == 'edit'){
+            $res = $Menu->where(array('id'=>$id))->save($data);
+        }else{
+            $res = $Menu->where(array('id'=>$id))->save(array('isdel'=>1));
+        }
+        if($res){
+            $return['status'] = 1;
+            $return['info'] = '操作成功';
+        }else{
+            $return['info'] = '操作失败';
+        }
+        return $this->ajaxReturn($return);
     }
 }
