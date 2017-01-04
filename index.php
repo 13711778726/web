@@ -38,7 +38,7 @@ define('APP_PATH','./Application/');
 //define('BIND_MODULE','Api');
 
 //定义配置文件目录
-define('APP_CONF', APP_PATH . '/Index/Conf/');
+define('APP_CONF', APP_PATH . '/Common/Conf/');
 
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
