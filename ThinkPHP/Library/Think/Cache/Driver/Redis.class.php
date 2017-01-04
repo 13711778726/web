@@ -20,7 +20,7 @@ class Redis extends Cache {
         }
         $options = array_merge(array (
             'host'          => C('REDIS_HOST') ? : '127.0.0.1',
-            'port'          => C('REDIS_PORT') ? : 1748,
+            'port'          => C('REDIS_PORT') ? : 2179,
             'timeout'       => C('DATA_CACHE_TIMEOUT') ? : false,
             'persistent'    => false,
         ),$options);
