@@ -104,4 +104,48 @@ class AdminController extends CommonController{
         }
         return $this->ajaxReturn($return);
     }
+    //权限列表
+    public function privlist(){
+        $agentid = I('request.agentid',0,'int');
+        $admin_user = M('admin_user');
+        $privarr = $admin_user->where(array('id'=>$agentid))->getField('priv_action');
+        if(!empty($privarr)){$privarr = explode(',',$privarr);}
+        $menu = M('menu');
+        $parents = $menu->where(array('parentid'=>0))->select();
+        $childs = $menu->where('parentid!=0')->select();
+        foreach ($parents as $key=>$val){
+            foreach ($childs as $k=>$v){
+                if(in_array($v['id'],$privarr)){
+                    $childs[$k]['ischeck'] ='checked';
+                }else{
+                    $childs[$k]['ischeck'] ='';
+                }                
+                if($val['id'] == $v['parentid']){
+                    $parents[$key]['child'][] = $childs[$k];
+                }
+            }           
+        }
+        $this->return['status'] = 1;
+        $this->return['data'] = $parents;
+        $this->ajaxReturn($this->return);
+    }
+    //权限管理
+    public function priv() {
+        $admin_user = M('admin_user');
+        $agentid = I('request.agentid',0,'int');
+        $privids = I('request.privids','','string');
+        if(empty($privids)){
+            $this->return['info'] = '提交的选择为空';
+            $this->ajaxReturn($this->return);
+        }
+        $res = $admin_user->where(array('id'=>$agentid))->setField('priv_action',$privids);
+        if($res){
+            $this->return['status'] = 1;
+            $this->return['info'] = '分配成功';
+            $this->ajaxReturn($this->return);
+        }else{
+            $this->return['info'] = '分配失败';
+            $this->ajaxReturn($this->return);
+        }
+    }
 }

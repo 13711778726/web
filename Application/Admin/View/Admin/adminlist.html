@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.tmpl.min.js"></script>
 <link rel="stylesheet" type="text/css" href="__CSS__/handle.css" />
 <include file="Common:header"/>
 <title>Insert title here</title>
@@ -72,23 +73,12 @@
 </div>
 <div id="priv" class="easyui-window" style="padding: 10px"
          data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">        
-        <div class="priv-box">
-        	<div class="priv-list">
-        		<div class="priv-title"><label>模块一</label></div>
-        		<div class="priv-main">
-        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div> 
-        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div>
-        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div>       			       			     			
-        		</div>
-        	</div> 
-        	<div class="priv-list">
-        		<div class="priv-title"><label>模块一</label></div>
-        		<div class="priv-main">
-        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div> 
-        			<div class="priv-main-box"><input type="checkbox" class="input-checkbox"/>是的发送 </div>     			       			     			
-        		</div>
-        	</div>      	
-        </div>         
+        <div class="priv-box"></div> 
+        <input type="hidden" name="agentid" />
+        <div style="text-align:center;padding:10px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitPriv()">提交</a>
+            <!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a> -->
+        </div>        
 </div>
 <script type="text/javascript">	
 $('#grid').datagrid({
@@ -117,19 +107,7 @@ $('#grid').datagrid({
         handler: function() { 
         	add();
         } 
-    },/* '-', { 
-        text: '修改', 
-        iconCls: 'icon-edit', 
-        handler: function() { 
-            openDialog("add_dialog","edit"); 
-        } 
-    }, '-',{ 
-        text: '删除', 
-        iconCls: 'icon-remove', 
-        handler: function(){ 
-            delAppInfo(); 
-        } 
-    } */],
+    }],
     columns: [
         [
             {title: 'ID', field: 'id', width: 50, align: 'center'},            
@@ -220,11 +198,40 @@ function priv(id){
 	$('#priv').window({
         title: "账户权限"
     });
+	$('input[name="agentid"]').val(id);
+	$.post('{:U("admin/privlist")}',{agentid:id},function(res){		
+		$('.priv-box').html($('#privlist').tmpl(res));
+	});
     $('#priv').window('open');
 }
 function clearForm() {
     $('#ff').form('clear');
 }
+function submitPriv(){
+	var agentid = $('input[name="agentid"]').val();
+	var privids = '2,4,8,10'
+	$.post('{:U("admin/priv")}',{agentid:agentid,privids:privids},function(res){
+		if(res.status!=0){
+			$('#priv').window('close');
+            $('#grid').datagrid('reload');
+		}else{
+			$.messager.alert('分配权限','分配失败！！','error');
+			return;
+		}
+	});
+}
 </script>
+<script id="privlist" type="text/x-jquery-tmpl">
+{{each(i,v) data}}
+<div class="priv-list">
+        		<div class="priv-title"><label>${v.name}</label></div>
+        		<div class="priv-main">
+					{{each(j,k) child}}
+        			<div class="priv-main-box"><input type="checkbox" value='${k.id}' data-privid='${k.id}' class="input-checkbox" ${k.ischeck}/>${k.name} </div>
+					{{/each}}       			       			       			     			
+        		</div>
+</div>
+{{/each}}	
+</script> 
 </body>
 </html>
