@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Think\Cache\Driver\Redis;
+//use Think\Cache\Driver\Redis;
 class IndexController extends CommonController {
 function index(){
         $this->display();
@@ -28,9 +28,9 @@ function index(){
         $this->display();
     }
     function main(){
-	 $redis = new Redis();
-         $redis->set('username','my redis service ok!!');
-         echo $redis->get('username');
+	 //$redis = new Redis();
+         //$redis->set('username','my redis service ok!!');
+         //echo $redis->get('username');
         $this->display();
     }
 }
