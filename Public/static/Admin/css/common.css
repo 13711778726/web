@@ -69,6 +69,7 @@ img {
 }
 .menu_ul_li{
 	margin-top:5px;
+    cursor: pointer;
 }
 .menu_title{
 	margin-left:10px;
@@ -96,6 +97,15 @@ s {
     background: url("../img/arrow-16.png") scroll 0 center no-repeat;
     padding-right: 5px;
 	background-position: 0 11px;
+}
+.parent_menu_li .ss {
+    width: 22px;
+    height: 30px;
+    margin: 0 auto;
+    float: right;
+    background: url("../img/arrow-16.png")  0 -19px no-repeat;
+    padding-right: 5px;
+    
 }
 .child_menu_ul{
 	padding:0px;
