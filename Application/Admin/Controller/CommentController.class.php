@@ -41,12 +41,12 @@ class CommentController extends CommonController {
         $oper = I('request.oper','','string'); 
         $id = I('request.id',0,'int');
         $status = I('request.status',-1,'int');
-        $Comment = M('comment');
-        if($status == -1){
-            $return['info'] = '参数缺失';
-            return $this->ajaxReturn($return);
-        }
+        $Comment = M('comment');               
         if($oper == 'edit'){
+            if($status == -1){
+                $return['info'] = '参数缺失';
+                return $this->ajaxReturn($return);
+            }
             $res = $Comment->where(array('id'=>$id))->setField('status',$status);
         }else if($oper == 'del'){
             $res = $Comment->where(array('id'=>$id))->save(array('isdel'=>1));

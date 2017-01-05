@@ -139,7 +139,7 @@ function searchGrid() {
     });
 }
 var selectRow;
-var ctrlUrl = "{:U('cat/edit')}";
+var ctrlUrl = "{:U('comment/edit')}";
 function add() {
     $('#window').window({
         title: "添加评论"
@@ -164,13 +164,19 @@ function edit(index) {
 //删除评论：要求删除后消失
 //接口:comment/edit  参数：{oper:del,id:id}
 function check(id,status){
-	
-	alert(id);alert(status);
+	$.post(ctrlUrl, {id: id, oper: 'edit',status:status}, function (data) {
+        if (data.status == 0) {
+        	$.messager.alert('标记数据','标记失败！！','error');
+            $('#grid').datagrid('reload');
+            return;
+        }
+        $('#grid').datagrid('reload'); //刷新列表
+    }, 'json');
 }
-/* function del(id) {
+function del(id) {
     $.messager.confirm('刪除评论', '你確定要刪除該信息嗎?', function (r) {
         if (r) {
-            $.post(ctrlUrl, {catid: id, oper: 'del'}, function (data) {
+            $.post(ctrlUrl, {id: id, oper: 'del'}, function (data) {
                 if (data.status == 0) {
                 	$.messager.alert('删除数据','删除失败！！','error');
                     $('#grid').datagrid('reload');
@@ -182,6 +188,7 @@ function check(id,status){
         }
     });
 }
+/* 
 function submitForm() {
     $('#ff').form('submit', {
         url: ctrlUrl,
