@@ -15,8 +15,15 @@
         	 <form id="tb" class="easyui-form" data-options="novalidate:true" style="margin-bottom: 10px;">
                 <table>
                     <tr>
-                        <td>评论名称:</td> 
-                        <td><input type="text" class="easyui-textbox" id="name" name="name" /></td>                                                                 
+                    	<td>状态:</td>
+                    	<td>
+                            <select id="status" class="easyui-combobox"
+                                    data-options="panelHeight:'auto',value:-1">
+                                <option value="-1">请选择</option>    
+                                <option value="0">正常</option>
+                                <option value="1">异常</option>
+                            </select>
+                        </td>                                                                                        
                         <td>&emsp;
                             <a onclick="searchGrid()" href="javascript:void(0)"
                                class="easyui-linkbutton">查询</a>
@@ -68,19 +75,18 @@ $('#grid').datagrid({
     frozenColumns:[[ 
          {field:'ck',checkbox:true} 
     ]],
-    url:"{:U('Comment/commentAjax 
-')}",
+    url:"{:U('comment/commentAjax')}",
     onBeforeLoad: function (param) {
      /* param.start =评论 ((param.page - 1) * param.page_size) < 0 ? 0 : ((param.page - 1) * param.page_size);
      param.limit = param.page_size; */
     },
-    toolbar: [{ 
+    /*toolbar: [{ 
         text: '添加', 
         iconCls: 'icon-add', 
         handler: function() { 
         	add();
         } 
-    },/* '-', { 
+    }, '-', { 
         text: '修改', 
         iconCls: 'icon-edit', 
         handler: function() { 
@@ -92,27 +98,44 @@ $('#grid').datagrid({
         handler: function(){ 
             delAppInfo(); 
         } 
-    } */],
+    } ],*/
     columns: [
         [
-            {title: '评论ID', field: 'id', width: 50, align: 'center'},            
-            {title: '动态id', field: 'dyid', width: 100, align: 'center'},
-            {title: '评论时间', field: 'addtime', width: 50, align: 'center'},
+            {title: '评论ID', field: 'id', width: 50, align: 'center'}, 
+            {title: '动态标题', field: 'title', width: 100, align: 'center'},
+            {title: '用户昵称', field: 'nickname', width: 100, align: 'center'},
+            {title: '回复时间', field: 'replytime', width: 80, align: 'center'},
+            {title: '评论时间', field: 'addtime', width: 80, align: 'center'},
+            {title: '评论内容', field: 'comment', width: 150, align: 'center'},
             {
-                title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
-                var btn = '<a class="easyui-linkbutton" onclick="priv(\'' + row.id + '\')"  href="javascript:void(0)">权限</a> | ';   
-                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + index + '\')"  href="javascript:void(0)">編輯</a> | ';
+                title: '状态', field: 'status', width: 100, align: 'center', formatter: function (value, row, index) {
+                if (value == 0) {
+                    return "正常";
+                }
+                if (value == 1) {
+                    return "异常";
+                }
+                }
+            },
+            {
+                title: '操作', field: 'opt', width: 50, align: 'center', formatter: function (value, row, index) {
+                if(row.status == 0){
+                	var btn = '<a class="easyui-linkbutton" onclick="check(\'' + row.id + '\',1)"  href="javascript:void(0)">标记异常</a> | '; 
+                }else{
+                	var btn = '<a class="easyui-linkbutton" onclick="check(\'' + row.id + '\',0)"  href="javascript:void(0)">标记正常</a> | '; 
+                }
+                
                 var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.id + '\')"  href="javascript:void(0)">刪除</a>';
-                return btn + btn1 + btn2;
+                return btn+btn2;
             }
             }
         ]
     ],
 });
 function searchGrid() {
-    //var name = $('#name').textbox('getValue');
+    var status = $('#status').textbox('getValue');
     $('#grid').datagrid('reload', {
-       // name: name,
+    	status: status,
     });
 }
 var selectRow;
@@ -135,7 +158,16 @@ function edit(index) {
     $('#ff').form('load', selectRow);
     $('#window').window('open');
 }
-function del(id) {
+//审核评论：要求标记评论状态刷新列表
+//接口:comment/edit  参数：{oper:edit,id:id,status:status}
+//status:0 标记正常 1:标记异常
+//删除评论：要求删除后消失
+//接口:comment/edit  参数：{oper:del,id:id}
+function check(id,status){
+	
+	alert(id);alert(status);
+}
+/* function del(id) {
     $.messager.confirm('刪除评论', '你確定要刪除該信息嗎?', function (r) {
         if (r) {
             $.post(ctrlUrl, {catid: id, oper: 'del'}, function (data) {
@@ -145,7 +177,7 @@ function del(id) {
                     return;
                 }
                 //alert('操作成功');
-                $('#grid').datagrid('reload');
+                $('#grid').datagrid('reload'); //刷新列表
             }, 'json')
         }
     });
@@ -173,7 +205,7 @@ function submitForm() {
             clearForm();
         }
     });
-}
+} */
 function clearForm() {
     $('#ff').form('clear');
 }

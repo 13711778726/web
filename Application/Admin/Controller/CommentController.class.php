@@ -9,16 +9,19 @@ class CommentController extends CommonController {
     //数据加载
     public function commentAjax(){
         $arr = [];
-        $where = ['isdel'=>0];
+        $where = ['cdb_comment.isdel'=>0];
         $Comment = M('comment');
         $count = $Comment->count();
         $page = I('request.page',1,'int');
         $status = I('request.status',-1,'int');
         if($status!=-1){
-            $where['status'] = $status;
+            $where['cdb_comment.status'] = $status;
         }
         $pageSize = I('request.rows',20,'int');
-        $list=$Comment->where($where)->page($page, $pageSize)->select();
+        $list=$Comment->field('cdb_comment.id,cdb_comment.dyid,cdb_comment.addtime,cdb_comment.replytime,cdb_comment.comment,cdb_comment.status,d.title,u.nickname')
+        ->join('LEFT JOIN cdb_dynamicsinfo d ON d.dyid=cdb_comment.dyid')
+        ->join('LEFT JOIN cdb_user u ON u.userid=cdb_comment.userid')
+        ->where($where)->page($page, $pageSize)->select();
         foreach ($list as $key=>$val){
             if($val['replytime'] == 0){
                 $list[$key]['replytime'] = '';
