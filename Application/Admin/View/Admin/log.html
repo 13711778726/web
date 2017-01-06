@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="page-header">
-     <h2>评论管理<small>->评论列表</small></h2>  
+     <h2>后台管理<small>->操作日志</small></h2>  
 </div>
 <div class="row">
         <div class="col-xs-12">
@@ -17,11 +17,12 @@
                     <tr>
                     	<td>状态:</td>
                     	<td>
-                            <select id="status" class="easyui-combobox"
+                            <select id="agentid" class="easyui-combobox"
                                     data-options="panelHeight:'auto',value:-1">
-                                <option value="-1">请选择</option>    
-                                <option value="0">正常</option>
-                                <option value="1">异常</option>
+                                <option value="-1">请选择</option>  
+                                <foreach name="acctlist" item="re">  
+                                    <option value="{$re.id}">{$re.name}</option>
+                                </foreach>
                             </select>
                         </td>                                                                                        
                         <td>&emsp;
@@ -75,7 +76,7 @@ $('#grid').datagrid({
     frozenColumns:[[ 
          {field:'ck',checkbox:true} 
     ]],
-    url:"{:U('comment/commentAjax')}",
+    url:"{:U('Admin/logAjax')}",
     onBeforeLoad: function (param) {
      /* param.start =评论 ((param.page - 1) * param.page_size) < 0 ? 0 : ((param.page - 1) * param.page_size);
      param.limit = param.page_size; */
@@ -101,41 +102,32 @@ $('#grid').datagrid({
     } ],*/
     columns: [
         [
-            {title: '评论ID', field: 'id', width: 50, align: 'center'}, 
-            {title: '动态标题', field: 'title', width: 100, align: 'center'},
-            {title: '用户昵称', field: 'nickname', width: 100, align: 'center'},
-            {title: '回复时间', field: 'replytime', width: 80, align: 'center'},
-            {title: '评论时间', field: 'addtime', width: 80, align: 'center'},
-            {title: '评论内容', field: 'comment', width: 150, align: 'center'},
-            {
-                title: '状态', field: 'status', width: 100, align: 'center', formatter: function (value, row, index) {
-                if (value == 0) {
-                    return "正常";
-                }
-                if (value == 1) {
-                    return "异常";
-                }
-                }
-            },
-            {
-                title: '操作', field: 'opt', width: 150, align: 'center', formatter: function (value, row, index) {
-                if(row.status == 0){
-                	var btn = '<a class="easyui-linkbutton" onclick="check(\'' + row.id + '\',1)"  href="javascript:void(0)">标记异常</a> | '; 
-                }else{
-                	var btn = '<a class="easyui-linkbutton" onclick="check(\'' + row.id + '\',0)"  href="javascript:void(0)">标记正常</a> | '; 
-                }
-                
-                var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.id + '\')"  href="javascript:void(0)">刪除</a>';
-                return btn+btn2;
-            }
-            }
+            {title: 'ID', field: 'id', width: 50, align: 'center'},
+            {title: '操作账户', field: 'name', width: 100, align: 'center'},
+             {title: '操作ip', field: 'ip', width: 100, align: 'center'}, 
+            // {title: 'agentid', field: 'agentid', width: 100, align: 'center'},
+            {title: '操作时间', field: 'addtime', width: 100, align: 'center'},
+            {title: '操作内容', field: 'mark', width: 200, align: 'center'},
+             // {title: 'isdel', field: 'isdel', width: 80, align: 'center'},
+            
+           
+            // {
+            //     title: '状态', field: 'status', width: 100, align: 'center', formatter: function (value, row, index) {
+            //     if (value == 0) {
+            //         return "正常";
+            //     }
+            //     if (value == 1) {
+            //         return "异常";
+            //     }
+            //     }
+            // }
         ]
     ],
 });
 function searchGrid() {
-    var status = $('#status').textbox('getValue');
+    var agentid = $('#agentid').textbox('getValue');
     $('#grid').datagrid('reload', {
-    	status: status,
+    	agentid: agentid,
     });
 }
 var selectRow;
