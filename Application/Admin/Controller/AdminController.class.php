@@ -50,6 +50,7 @@ class AdminController extends CommonController{
         if($oper == 'add'){
             $data['mode'] = 1;
             $data['agent_id'] = $acctid;
+            $data['priv_action'] = '4,8,9,10,11,14';
             $res = $AdminUser->add($data);
         }else if($oper == 'edit'){
             $res = $AdminUser->where(array('id'=>$id))->save($data);
