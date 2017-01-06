@@ -16,8 +16,8 @@ function index(){
         $priv_action = explode(',',$priv_action);
         $Menu = M('menu');
         $arr = [];
-        if($this->admininfo['mode'] == 0){$where['parentid']!=0;}else{$where['id'] = array('in',$priv_action);}
-        
+        $where = [];
+        if($this->admininfo['mode'] == 0){$where['parentid']!=0;}else{$where['id'] = array('in',$priv_action);}       
         $parents = $Menu->field('id,name,url,parentid')->where(array('parentid'=>0))->select();
         $childs = $Menu->field('id,name,url,parentid')->where($where)->select();
         foreach ($parents as $key=>$val){

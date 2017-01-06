@@ -47,11 +47,14 @@ class CommentController extends CommonController {
                 $return['info'] = '参数缺失';
                 return $this->ajaxReturn($return);
             }
+            $mark = '<'.$this->admininfo['name'].'>审核评论';
             $res = $Comment->where(array('id'=>$id))->setField('status',$status);
         }else if($oper == 'del'){
+            $mark = '<'.$this->admininfo['name'].'>删除评论';
             $res = $Comment->where(array('id'=>$id))->save(array('isdel'=>1));
         }
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';
         }else{

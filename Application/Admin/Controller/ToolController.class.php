@@ -23,6 +23,7 @@ class ToolController extends Controller {
 	                        session('admininfo', $admininfo);
 	                        $return['status']=1;
 	                        $return['info']='用户登陆成功';
+	                        logData($admininfo['id'], '<'.$admininfo['name'].'>登录');
 	                        $this->ajaxReturn($return);	                       
 	                    }
 	                    else {

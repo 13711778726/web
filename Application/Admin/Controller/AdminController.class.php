@@ -51,13 +51,17 @@ class AdminController extends CommonController{
             $data['mode'] = 1;
             $data['agent_id'] = $acctid;
             $data['priv_action'] = '4,8,9,10,11,14';
+            $mark = '<'.$this->admininfo['name'].'>添加管理员'.'<'.$data['name'].'>';
             $res = $AdminUser->add($data);
         }else if($oper == 'edit'){
+            $mark = '<'.$this->admininfo['name'].'>修改管理员'.'<'.$data['name'].'>信息';
             $res = $AdminUser->where(array('id'=>$id))->save($data);
         }else{
+            $mark = '<'.$this->admininfo['name'].'>删除管理员';
             $res = $AdminUser->where(array('id'=>$id))->delete();
         }
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';           
         }else{
@@ -68,6 +72,7 @@ class AdminController extends CommonController{
     public function menu(){
         $this->display();
     }
+    //菜单数据
     public function menuAjax(){
         $arr = [];
         $where['isdel'] = 0;
@@ -80,7 +85,7 @@ class AdminController extends CommonController{
         $arr['rows'] = $list;
         return $this->ajaxReturn($arr);
     }
-    //操作数据
+    //操作菜单数据
     function menuedit(){
         $return = ['status'=>0,'info'=>'','data'=>array()];
         $oper = I('request.oper','','string');
@@ -91,13 +96,17 @@ class AdminController extends CommonController{
         $Menu = M('menu');
         $data = ['name'=>$name,'url'=>$url,'parentid'=>$parentid];
         if($oper == 'add'){
+            $mark = '<'.$this->admininfo['name'].'>添加菜单';
             $res = $Menu->add($data);
         }else if($oper == 'edit'){
+            $mark = '<'.$this->admininfo['name'].'>修改菜单';
             $res = $Menu->where(array('id'=>$id))->save($data);
         }else{
+            $mark = '<'.$this->admininfo['name'].'>删除菜单';
             $res = $Menu->where(array('id'=>$id))->save(array('isdel'=>1));
         }
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';
         }else{
@@ -109,11 +118,11 @@ class AdminController extends CommonController{
     public function privlist(){
         $agentid = I('request.agentid',0,'int');
         $admin_user = M('admin_user');
-        $privarr = $admin_user->where(array('id'=>$agentid))->getField('priv_action');
+        $privarr = $admin_user->where(array('id'=>$agentid,'isdel'=>0))->getField('priv_action');
         if(!empty($privarr)){$privarr = explode(',',$privarr);}
         $menu = M('menu');
-        $parents = $menu->where(array('parentid'=>0))->select();
-        $childs = $menu->where('parentid!=0')->select();
+        $parents = $menu->where(array('parentid'=>0,'isdel'=>0))->select();
+        $childs = $menu->where('parentid!=0 and isdel=0')->select();
         foreach ($parents as $key=>$val){
             foreach ($childs as $k=>$v){
                 if(in_array($v['id'],$privarr)){
@@ -139,8 +148,10 @@ class AdminController extends CommonController{
             $this->return['info'] = '提交的选择为空';
             $this->ajaxReturn($this->return);
         }
+        $acctinfo = $admin_user->where(array('id'=>$agentid))->getField('name');
         $res = $admin_user->where(array('id'=>$agentid))->setField('priv_action',$privids);
         if($res){
+            logData($this->admininfo['id'], '<'.$this->admininfo['name'].'>给<'.$acctinfo.'>分配权限');
             $this->return['status'] = 1;
             $this->return['info'] = '分配成功';
             $this->ajaxReturn($this->return);
@@ -148,5 +159,33 @@ class AdminController extends CommonController{
             $this->return['info'] = '分配失败';
             $this->ajaxReturn($this->return);
         }
+    }
+    public function log(){
+        $acctlist = getlist_agents_child($this->session_id);
+        $this->assign('acctlist',$acctlist);
+        $this->display();
+    }
+    //操作日志
+    public function logAjax(){
+        $arr = [];
+        $where = [];
+        $Log = M('log');
+        $count = $Log->count();
+        $page = I('request.page',1,'int');
+        $agentid = I('request.agentid',-1,'int');
+        if($agentid!=-1){
+            $where['cdb_log.agentid'] = $agentid;
+        }
+        $pageSize = I('request.rows',20,'int');
+        $list=$Log->where($where)->field('cdb_log.*,a.name')
+        ->join('LEFT JOIN cdb_admin_user a ON a.id=cdb_log.agentid')
+        ->page($page, $pageSize)->select();
+        foreach ($list as $key=>$val){
+            $list[$key]['addtime'] = date('Y-m-d H:i:s',$val['addtime']);
+        }
+        $arr['total'] = $count;
+        $arr['pageCount'] = ceil($arr['total'] / $pageSize);
+        $arr['rows'] = $list;
+        return $this->ajaxReturn($arr);
     }
 }

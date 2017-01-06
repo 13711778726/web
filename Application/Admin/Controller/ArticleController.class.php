@@ -55,11 +55,14 @@ class ArticleController extends CommonController {
         $type = I('request.type',0,'int');
         $Article = M('article');
         if($oper == 'del'){
+            $mark = '<'.$this->admininfo['name'].'>删除文章';
             $res = $Article->where(array('articleid'=>$articleid))->save(array('isdel'=>1));
         }else{
+            $mark = '<'.$this->admininfo['name'].'>标记文章';
             $res = $Article->where(array('articleid'=>$articleid))->save(array('type'=>$type));
         }        
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';
         }else{
@@ -80,6 +83,8 @@ class ArticleController extends CommonController {
             $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time(),'img'=>$img];
             $res = $Article->add($data);
             if($res){
+                $mark = '<'.$this->admininfo['name'].'>添加文章';
+                logData($this->admininfo['id'], $mark);
                 $this->success('添加成功','articlelist');
             }else{
                 $this->error('添加失败');
@@ -110,6 +115,8 @@ class ArticleController extends CommonController {
             }
             $res = $Article->where(array('articleid'=>$articleid))->save($data);
             if($res){
+                $mark = '<'.$this->admininfo['name'].'>修改文章';
+                logData($this->admininfo['id'], $mark);
                 $this->success('修改成功','articlelist');
             }else{
                 $this->error('修改失败');

@@ -43,11 +43,14 @@ class UserController extends CommonController {
         $User = M('user');
         $data = ['nickname'=>$nickname,'username'=>$username,'email'=>$email,'desc'=>$desc];
         if($oper == 'add'){
+            $mark = '<'.$this->admininfo['name'].'>添加用户<'.$data['username'].'>';
             $data['addtime'] = time();
             $res = $User->add($data);
         }else if($oper == 'edit'){
+            $mark = '<'.$this->admininfo['name'].'>修改用户<'.$data['username'].'>';
             $res = $User->where(array('userid'=>$userid))->save($data);
         }else{
+            $mark = '<'.$this->admininfo['name'].'>删除用户';
             $res = $User->where(array('userid'=>$userid))->save(array('isdel'=>1));
         }
         if($res){

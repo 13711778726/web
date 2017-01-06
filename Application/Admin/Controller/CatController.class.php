@@ -37,14 +37,18 @@ class CatController extends CommonController {
         $Cat = M('cat');
         $data = ['name'=>$name,'desc'=>$desc];
         if($oper == 'add'){
+            $mark = '<'.$this->admininfo['name'].'>添加分类';
             $data['addtime'] = time();
             $res = $Cat->add($data);
         }else if($oper == 'edit'){
+            $mark = '<'.$this->admininfo['name'].'>修改分类';
             $res = $Cat->where(array('catid'=>$catid))->save($data);
         }else{
+            $mark = '<'.$this->admininfo['name'].'>删除分类';
             $res = $Cat->where(array('catid'=>$catid))->save(array('isdel'=>1));
         }
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';
         }else{

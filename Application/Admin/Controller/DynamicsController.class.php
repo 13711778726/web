@@ -36,14 +36,18 @@ class DynamicsController extends CommonController {
         $Tag = M('tag');
         $data = ['name'=>$name];
         if($oper == 'add'){
+            $mark = '<'.$this->admininfo['name'].'>添加标签';
             $data['addtime'] = time();
             $res = $Tag->add($data);
         }else if($oper == 'edit'){
+            $mark = '<'.$this->admininfo['name'].'>修改标签';
             $res = $Tag->where(array('tid'=>$tid))->save($data);
         }else{
+            $mark = '<'.$this->admininfo['name'].'>删除标签';
             $res = $Tag->where(array('tid'=>$tid))->save(array('isdel'=>1));
         }
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';
         }else{
@@ -120,6 +124,8 @@ class DynamicsController extends CommonController {
             $data = ['title'=>$title,'content'=>$content,'tagid'=>$tagid,'addtime'=>time()];
             $res = $Dynamics->add($data);
             if($res){
+                $mark = '<'.$this->admininfo['name'].'>添加动态';
+                logData($this->admininfo['id'], $mark);
                 $this->success('添加成功','dylist');
             }else{
                 $this->error('添加失败');
@@ -144,6 +150,8 @@ class DynamicsController extends CommonController {
             
             $res = $Dynamics->where(array('dyid'=>$dyid))->save($data);
             if($res){
+                $mark = '<'.$this->admininfo['name'].'>修改动态';
+                logData($this->admininfo['id'], $mark);
                 $this->success('修改成功','dylist');
             }else{
                 $this->error('修改失败');
