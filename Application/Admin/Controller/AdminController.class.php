@@ -195,7 +195,7 @@ class AdminController extends CommonController{
     //加载数据
     public function noticeAjax(){
         $arr = [];
-        $where = [];
+        $where = ['cdb_notice.isdel'=>0];
         $Notice = M('notice');
         $count = $Notice->count();
         $page = I('request.page',1,'int');
