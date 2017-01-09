@@ -54,6 +54,7 @@ class UserController extends CommonController {
             $res = $User->where(array('userid'=>$userid))->save(array('isdel'=>1));
         }
         if($res){
+            logData($this->admininfo['id'], $mark);
             $return['status'] = 1;
             $return['info'] = '操作成功';
         }else{
