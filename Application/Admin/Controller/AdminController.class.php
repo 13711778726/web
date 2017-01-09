@@ -179,7 +179,7 @@ class AdminController extends CommonController{
         $pageSize = I('request.rows',20,'int');
         $list=$Log->where($where)->field('cdb_log.*,a.name')
         ->join('LEFT JOIN cdb_admin_user a ON a.id=cdb_log.agentid')
-        ->page($page, $pageSize)>order('addtime DESC')->select();
+        ->page($page, $pageSize)->order('addtime DESC')->select();
         foreach ($list as $key=>$val){
             $list[$key]['addtime'] = date('Y-m-d H:i:s',$val['addtime']);
         }
