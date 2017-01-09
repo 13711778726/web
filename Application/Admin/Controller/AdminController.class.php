@@ -188,4 +188,57 @@ class AdminController extends CommonController{
         $arr['rows'] = $list;
         return $this->ajaxReturn($arr);
     }
+    //系统通知
+    public function notice(){
+        $this->display();
+    }
+    //加载数据
+    public function noticeAjax(){
+        $arr = [];
+        $where = [];
+        $Notice = M('notice');
+        $count = $Notice->count();
+        $page = I('request.page',1,'int');
+
+        $pageSize = I('request.rows',20,'int');
+        $list=$Notice->where($where)->field('cdb_notice.*,a.name')
+        ->join('LEFT JOIN cdb_admin_user a ON a.id=cdb_notice.agentid')
+        ->page($page, $pageSize)->select();
+        foreach ($list as $key=>$val){
+            $list[$key]['addtime'] = date('Y-m-d H:i:s',$val['addtime']);
+        }
+        $arr['total'] = $count;
+        $arr['pageCount'] = ceil($arr['total'] / $pageSize);
+        $arr['rows'] = $list;
+        return $this->ajaxReturn($arr);
+    }
+    //操作通知数据
+    public function noticeedit() {
+        $return = ['status'=>0,'info'=>'','data'=>array()];
+        $oper = I('request.oper','','string');
+        $id = I('request.id',0,'int');
+        $content = I('request.content','','string');
+        $Notice = M('notice');
+        $data = ['content'=>$content];
+        if($oper == 'add'){
+            $mark = '<'.$this->admininfo['name'].'>发布通知';
+            $data['addtime'] = time();
+            $data['agentid'] = $this->admininfo['id'];
+            $res = $Notice->add($data);
+        }else if($oper == 'edit'){
+            $mark = '<'.$this->admininfo['name'].'>修改通知';
+            $res = $Notice->where(array('id'=>$id))->save($data);
+        }else{
+            $mark = '<'.$this->admininfo['name'].'>删除通知';
+            $res = $Notice->where(array('id'=>$id))->save(array('isdel'=>1));
+        }
+        if($res){
+            logData($this->admininfo['id'], $mark);
+            $return['status'] = 1;
+            $return['info'] = '操作成功';
+        }else{
+            $return['info'] = '操作失败';
+        }
+        return $this->ajaxReturn($return);
+    }
 }
