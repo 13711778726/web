@@ -38,9 +38,8 @@
             <table cellpadding="5">   
                 <tr>
                     <td>发布内容</td>
-                    <td colspan="3" style="padding: 5px 0;">
-                        <input class="easyui-textbox" name="content"
-                               data-options="required:true"/>
+                     <td colspan="3" style="padding: 5px 0;">
+                        <textarea name="content" class="desc" data-options="required:true" placeholder="请输入内容" cols='21' rows='8'></textarea>
                     </td>
                 </tr>               
             </table>
@@ -81,7 +80,7 @@ $('#grid').datagrid({
      param.limit = param.page_size; */
     },
     toolbar: [{ 
-        text: '发布评论', 
+        text: '发布', 
         iconCls: 'icon-add', 
         handler: function() { 
             add();
@@ -89,14 +88,13 @@ $('#grid').datagrid({
     }],
     columns: [
         [
-            {title: 'ID', field: 'id', width: 50, align: 'center'},            
-            {title: 'agentid', field: 'agentid', width: 100, align: 'center'},
-            {title: '操作时间', field: 'addtime', width: 150, align: 'center'},
-            {title: '发布内容', field: 'content', width: 100, align: 'center'},
+            {title: 'ID', field: 'id', width: 50, align: 'center'},  
             {title: '操作用户', field: 'name', width: 100, align: 'center'},
+            {title: '操作时间', field: 'addtime', width: 100, align: 'center'},
+            {title: '发布内容', field: 'content', width: 200, align: 'center'},           
             {
                 title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
-                var btn = '<a class="easyui-linkbutton" onclick="del(\'' + row.id + '\')"  href="javascript:void(0)">刪除评论</a>';
+                var btn = '<a class="easyui-linkbutton" onclick="del(\'' + row.id + '\')"  href="javascript:void(0)">刪除</a>';
                 return btn;
             }
             }
