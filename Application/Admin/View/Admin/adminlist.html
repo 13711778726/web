@@ -208,8 +208,9 @@ function clearForm() {
     $('#ff').form('clear');
 }
 function submitPriv(){
+	var arr = checkarr();
 	var agentid = $('input[name="agentid"]').val();
-	var privids = '2,4,8,10'
+	var privids = arr;
 	$.post('{:U("admin/priv")}',{agentid:agentid,privids:privids},function(res){
 		if(res.status!=0){
 			$('#priv').window('close');
@@ -220,6 +221,12 @@ function submitPriv(){
 		}
 	});
 }
+function checkarr() {
+	var qx = $("input[name='priv']:checked").map(function () {
+        return $(this).val();
+    }).get().join(','); 
+    return qx;
+}
 </script>
 <script id="privlist" type="text/x-jquery-tmpl">
 {{each(i,v) data}}
@@ -227,7 +234,7 @@ function submitPriv(){
         		<div class="priv-title"><label>${v.name}</label></div>
         		<div class="priv-main">
 					{{each(j,k) child}}
-        			<div class="priv-main-box"><input type="checkbox" value='${k.id}' data-privid='${k.id}' class="input-checkbox" ${k.ischeck}/>${k.name} </div>
+        			<div class="priv-main-box"><input type="checkbox" name='priv' value='${k.id}' data-privid='${k.id}' class="input-checkbox" ${k.ischeck}/>${k.name} </div>
 					{{/each}}       			       			       			     			
         		</div>
 </div>
