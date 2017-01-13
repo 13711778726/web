@@ -91,11 +91,53 @@ class AdvertController extends CommonController {
         $arr['rows'] = $list;
         return $this->ajaxReturn($arr);
     }
-    //位置内容删除
+    //位置内容删除、标记
+    function editad(){
+        $return = ['status'=>0,'info'=>'','data'=>array()];
+        $oper = I('request.oper','','string');
+        $id = I('request.id',0,'int');
+        $isshow = I('request.isshow',0,'int');
+        $Article = M('article');
+        if($oper == 'del'){
+            $mark = '<'.$this->admininfo['name'].'>删除位置';
+            $res = $Article->where(array('id'=>$id))->save(array('isdel'=>1));
+        }elseif($oper == 'sign'){
+            $mark = '<'.$this->admininfo['name'].'>标记位置';
+            $res = $Article->where(array('id'=>$id))->save(array('isshow'=>$isshow));
+        }
+        if($res){
+            logData($this->admininfo['id'], $mark);
+            $return['status'] = 1;
+            $return['info'] = '操作成功';
+        }else{
+            $return['info'] = '操作失败';
+        }
+        return $this->ajaxReturn($return);
+    }
     //位置内容添加
     function add(){                      
         if(IS_POST){
-            
+            $Advertcontent = M('ad_content');
+            $ad_type = I('request.ad_type',0,'int');
+            $title = I('request.title','','string');
+            $content = I('request.content','','string');
+            $width = I('reqeust.width','200','int');
+            $height = I('request.height','200','int');
+            $imgs = upload($_FILES['img'],$width,$height);
+            if($imgs){
+                $img = $imgs['img'][0]['savethumbname'][0];
+            }else{
+                $img = '';
+            }          
+            $data = ['ad_type'=>$ad_type,'title'=>$title,'content'=>$content,'width'=>$width,'height'=>$height,'addtime'=>time(),'img'=>$img];
+            $res = $Advertcontent->add($data);
+            if($res){
+                $mark = '<'.$this->admininfo['name'].'>添加位置内容';
+                logData($this->admininfo['id'], $mark);
+                $this->success('添加成功','articlelist');
+            }else{
+                $this->error('添加失败');
+            }
         }else{
             $Advert = M('advert');
             $where = ['isdel'=>0,'isshow'=>1];
@@ -110,7 +152,25 @@ class AdvertController extends CommonController {
         $Advertcontent = M('ad_content');
         $info = $Advertcontent->where(array('id'=>$id))->find();
         if(IS_POST){
-    
+            $ad_type = I('request.ad_type',0,'int');
+            $title = I('request.title','','string');
+            $content = I('request.content','','string');
+            $width = I('reqeust.width','200','int');
+            $height = I('request.height','200','int');
+            $imgs = upload($_FILES['img'],$width,$height);
+            $data = ['ad_type'=>$ad_type,'title'=>$title,'content'=>$content,'width'=>$width,'height'=>$height];
+            if($imgs){
+                @unlink(UPLOAD_PATH.'Admin/'.$info['img']);
+                $data['img'] = $imgs['img'][0]['savethumbname'][0];
+            }           
+            $res = $Advertcontent->where(array('id'=>$id))->save($data);
+            if($res){
+                $mark = '<'.$this->admininfo['name'].'>修改位置内容';
+                logData($this->admininfo['id'], $mark);
+                $this->success('修改成功','articlelist');
+            }else{
+                $this->error('修改失败');
+            }
         }else{
             $Advert = M('advert');
             $where = ['isdel'=>0,'isshow'=>1];
