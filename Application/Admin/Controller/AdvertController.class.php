@@ -6,7 +6,7 @@ class AdvertController extends CommonController {
     public function advertlist() {
         $this->display();
     }
-    //数据加载
+    //位置数据加载
     public function advertAjax(){
         $arr = [];
         $where = ['isdel'=>0];
@@ -27,7 +27,7 @@ class AdvertController extends CommonController {
         $arr['rows'] = $list;
         return $this->ajaxReturn($arr);
     }
-    //操作数据
+    //位置操作数据
     function edit(){
         $return = ['status'=>0,'info'=>'','data'=>array()];
         $oper = I('request.oper','','string');
@@ -60,5 +60,64 @@ class AdvertController extends CommonController {
             $return['info'] = '操作失败';
         }
         return $this->ajaxReturn($return);
+    }
+    
+    function advertcontent(){
+        $Advert = M('advert');
+        $where = ['isdel'=>0,'isshow'=>1];
+        $list=$Advert->where($where)->field('id,name')->select();
+        $this->assign('advertlist',$list);
+        $this->display();
+    }
+    //位置内容
+    function advertcontentAjax(){
+        $arr = [];
+        $where = ['cdb_ad_content.isdel'=>0];
+        $Advertcontent = M('ad_content');
+        $count = $Advertcontent->count();
+        $page = I('request.page',1,'int');
+        $ad_id = I('request.ad_id',-1,'int');
+        if($ad_id != -1){
+            $where['cdb_ad_content.ad_id'] = $ad_id;
+        }
+        $pageSize = I('request.rows',20,'int');
+        $list=$Advertcontent->where($where)
+        ->field('a.name,cdb_ad_content.*')->join('LEFT JOIN cdb_advert a ON a.id=cdb_ad_content.ad_id')->page($page, $pageSize)->select();
+        foreach ($list as $key=>$val){
+            $list[$key]['addtime'] = date('Y-m-d H:i:s',$val['addtime']);
+        }
+        $arr['total'] = $count;
+        $arr['pageCount'] = ceil($arr['total'] / $pageSize);
+        $arr['rows'] = $list;
+        return $this->ajaxReturn($arr);
+    }
+    //位置内容删除
+    //位置内容添加
+    function add(){                      
+        if(IS_POST){
+            
+        }else{
+            $Advert = M('advert');
+            $where = ['isdel'=>0,'isshow'=>1];
+            $list=$Advert->where($where)->field('id,name')->select();
+            $this->assign('advertlist',$list);
+            $this->display();
+        }
+    }
+    //位置内容修改
+    function update(){
+        $id = I('request.id',0,'int');
+        $Advertcontent = M('ad_content');
+        $info = $Advertcontent->where(array('id'=>$id))->find();
+        if(IS_POST){
+    
+        }else{
+            $Advert = M('advert');
+            $where = ['isdel'=>0,'isshow'=>1];
+            $list=$Advert->where($where)->field('id,name')->select();
+            $this->assign('advertlist',$list);
+            $this->assign('info',$info);
+            $this->display();
+        }
     }
 }

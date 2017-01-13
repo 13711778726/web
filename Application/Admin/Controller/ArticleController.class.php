@@ -5,7 +5,7 @@ class ArticleController extends CommonController {
     public function articlelist() {
         $Cat = M('cat');
         $where = ['isdel'=>0,'isshow'=>1];
-        $list=$Cat->where($where)->select();
+        $list=$Cat->where($where)->field('id,name')->select();
         $this->assign('catlist',$list);
         $this->display();
     }
