@@ -12,8 +12,12 @@
 <div class="handle-main">
 	<div class="handle_title">添加文章</div>
 	<div class="handle_content">
-	<form action="{:U('advert/add')}" method="post" enctype="multipart/form-data">
+	<form action="{:U('advert/update')}" method="post" enctype="multipart/form-data">
 		<table>
+			<tr>
+				<td><label class="handle-label">封面：</label></td>
+				<td><div class="handle-img"><img src="__UPLOAD__/{$article.img}" width="200"/></div></td>
+			</tr>			
 			<tr>
 				<td><label class="handle-label">上传封面：</label></td>
 				<td><input type="file" name="img" /><tab style="color:red;">图片尺寸为200X200</tab></td>
@@ -25,7 +29,7 @@
 		               <select id="ad_id" class="select-box" name="ad_id">
 		                   <option value="0">--请选择--</option>
 			                   <foreach name="advertlist" item="res">    
-			                   <option value="{$res.id}">{$res.name}</option>
+			                   <option value="{$res.id}" <eq name="res.id" value="$info.ad_id">selected="selected"</eq>>{$res.name}</option>
 			                   </foreach>
 		               </select>
 		            </div>   
@@ -37,30 +41,30 @@
 					<div class="handle-select">
 		               <select id="ad_type" class="select-box" name="ad_type">
 		                   <option value="-1">--请选择--</option>
-			               <option value="0">文字</option>
-			               <option value="1">图片</option>
+			               <option value="0" <if condition="$info.ad_type eq 0">selected="selected"</if>>文字</option>
+			               <option value="1" <if condition="$info.ad_type eq 1">selected="selected"</if>>图片</option>
 		               </select>
 		            </div>   
 	           </td>
 			</tr>
 			<tr>
 				<td><label class="handle-label">标题：</label></td>
-				<td><div class="handle-input"><input type="text" name="title" class="input-box"/></div></td>
+				<td><div class="handle-input"><input type="text" name="title" class="input-box" value="{$info.title}"/></div></td>
 			</tr>
 			<tr>
 				<td><label class="handle-label">阅读送：</label></td>
-				<td><div class="handle-input"><input type="text" name="r_send" class="input-box"/>金币</div></td>
+				<td><div class="handle-input"><input type="text" name="r_send" class="input-box" value="" />金币</div></td>
 			</tr>
 			<tr>
 				<td><label class="handle-label">描述：</label></td>
-				<td><div class="handle-area"><textarea name="desc" class="textarea-box" cols="100" rows='8'></textarea></div></td>
+				<td><div class="handle-area"><textarea name="desc" class="textarea-box" cols="100" rows='8'>{$info.content}</textarea></div></td>
 			</tr>
-			
 			<tr>
 				<td colspan="2"><div class="handle-submit"><input type="submit" value="确定" class="submit-box">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="submit-box"></div></td>
 			</tr>
 		</table>
-	</form>		
+		<input type="hidden" name="id" value="{$info.id}">
+	</form>	
 	</div>
 </div>
 </body>
