@@ -43,7 +43,12 @@ class CatController extends CommonController {
         }else if($oper == 'edit'){
             $mark = '<'.$this->admininfo['name'].'>修改分类';
             $res = $Cat->where(array('catid'=>$catid))->save($data);
-        }else{
+        }else if($oper == 'sign'){
+            $isshow = I('request.isshow','-1','int');
+            $mark = '<'.$this->admininfo['name'].'>标记分类';
+            $res = $Cat->where(array('catid'=>$catid))->setField('isshow',$isshow);
+        }
+        else{
             $mark = '<'.$this->admininfo['name'].'>删除分类';
             $res = $Cat->where(array('catid'=>$catid))->save(array('isdel'=>1));
         }

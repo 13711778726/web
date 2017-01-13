@@ -4,7 +4,7 @@ class ArticleController extends CommonController {
     //分类模板
     public function articlelist() {
         $Cat = M('cat');
-        $where = ['isdel'=>0];
+        $where = ['isdel'=>0,'isshow'=>1];
         $list=$Cat->where($where)->select();
         $this->assign('catlist',$list);
         $this->display();
@@ -77,10 +77,11 @@ class ArticleController extends CommonController {
             $title = I('request.title','','string');
             $catid = I('request.catid',0,'int');
             $desc = I('request.desc','','string');
+            $r_send = I('request.r_send',0,'int');
             $detail = $_POST['detail'];
             $imgs = upload($_FILES['img'],200,200);
             $img = $imgs['img'][0]['savethumbname'][0];
-            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time(),'img'=>$img];
+            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time(),'img'=>$img,'r_send'=>$r_send];
             $res = $Article->add($data);
             if($res){
                 $mark = '<'.$this->admininfo['name'].'>添加文章';
@@ -106,8 +107,8 @@ class ArticleController extends CommonController {
             $catid = I('request.catid',0,'int');
             $desc = I('request.desc','','string');
             $detail = $_POST['detail'];
-            
-            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'updatetime'=>time()];
+            $r_send = I('request.r_send',0,'int');
+            $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'updatetime'=>time(),'r_send'=>$r_send];
             $imgs = upload($_FILES['img'],200,200);
             if($imgs){
                 @unlink(UPLOAD_PATH.'Admin/'.$article['img']);

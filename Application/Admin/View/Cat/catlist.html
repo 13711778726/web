@@ -100,9 +100,14 @@ $('#grid').datagrid({
             {title: '分类描述', field: 'desc', width: 100, align: 'center'},           
             {
                 title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
+               	if(row.isshow == 1){
+                   	var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.catid + '\',0)"  href="javascript:void(0)">隐藏</a> | '; 
+                }else{
+                   	var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.catid + '\',1)"  href="javascript:void(0)">显示</a> | '; 
+                }	
                 var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + index + '\')"  href="javascript:void(0)">編輯</a> | ';
                 var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.catId + '\')"  href="javascript:void(0)">刪除</a>';
-                return btn1 + btn2;
+                return btn + btn1 + btn2;
             }
             }
         ]
@@ -148,6 +153,17 @@ function del(id) {
             }, 'json')
         }
     });
+}
+function checkshow(catid,isshow){
+	$.post(ctrlUrl,{catid:catid,isshow:isshow,oper:'sign'},function(res){
+		if(res.status == 0){
+			$.messager.alert('标记分类','标记失败！！','error');
+            $('#grid').datagrid('reload');
+            return;
+		}else{
+			$('#grid').datagrid('reload');
+		}
+	});
 }
 function submitForm() {
     $('#ff').form('submit', {
