@@ -33,18 +33,29 @@
         <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
             <table cellpadding="5">               
                 <tr>
-                    <td>分类名称:</td>
+                    <td>位置名称:</td>
                     <td colspan="3" style="padding: 5px 0;">
                         <input class="easyui-textbox" name="name"
                                data-options="required:true"/>
                     </td>
                 </tr> 
                 <tr>
-                    <td>描述:</td>
+                    <td>位置标识:</td>
                     <td colspan="3" style="padding: 5px 0;">
-                        <textarea name="desc" class="desc" data-options="required:true" placeholder="请输入内容" cols='21' rows='8'></textarea>
+                        <input name="sign" class="desc" data-options="required:true" placeholder="请输入内容" cols='21' rows='8' />
                     </td>
-                </tr>                                            
+                </tr>
+                <tr>
+                    <td>位置类型:</td>
+                    <td colspan="3" style="padding: 5px 0;">
+                       <select id="type" class="easyui-combobox" 
+                                    data-options="panelHeight:'auto',value:-1" name="type">
+                                <option value="-1">请选择</option>    
+                                <option value="0">PC</option>
+                                <option value="1">APP</option>
+                     </select>
+                    </td>
+                </tr>                                             
             </table>
         </form>
         <div style="text-align:center;padding:5px">
@@ -54,7 +65,7 @@
     </div>
 <script type="text/javascript">	
 $('#grid').datagrid({
-    title: '分类管理',
+    title: '位置管理',
     method: 'get',
     //rownumbers: true,
     pagination: true,
@@ -94,9 +105,17 @@ $('#grid').datagrid({
     } */],
     columns: [
         [
-            {title: '分类ID', field: 'id', width: 50, align: 'center'},            
+            {title: 'ID', field: 'id', width: 50, align: 'center'},            
             {title: '位置名称', field: 'name', width: 100, align: 'center'},
             {title: '位置标识', field: 'sign', width: 50, align: 'center'},
+            {title: '位置类型', field: 'type', width: 50, align: 'center', formatter: function (value, row, index) {
+                if (value == 0) {
+                    return "PC";
+                }
+                if (value == 1) {
+                    return "APP";
+                }
+                }},
              {title: '操作时间', field: 'addtime', width: 100, align: 'center'},          
             {
                 title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
@@ -123,7 +142,7 @@ var selectRow;
 var ctrlUrl = "{:U('advert/edit')}";
 function add() {
     $('#window').window({
-        title: "添加分类"
+        title: "添加位置"
     });
     selectRow = null;
     $('#window').window('open');
