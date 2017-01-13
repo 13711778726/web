@@ -34,8 +34,9 @@ class AdvertController extends CommonController {
         $name = I('request.name','','string');      
         $id = I('request.id',0,'int');
         $sign = I('request.sign','','string');
+        $type = I('request.type',0,'int');
         $Advert = M('advert');
-        $data = ['name'=>$name,'sign'=>$sign];
+        $data = ['name'=>$name,'sign'=>$sign,'type'=>$type];
         if($oper == 'add'){
             $mark = '<'.$this->admininfo['name'].'>添加位置';
             $data['addtime'] = time();
