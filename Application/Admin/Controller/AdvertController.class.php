@@ -98,13 +98,13 @@ class AdvertController extends CommonController {
         $oper = I('request.oper','','string');
         $id = I('request.id',0,'int');
         $isshow = I('request.isshow',0,'int');
-        $Article = M('article');
+        $Advertcontent = M('ad_content');
         if($oper == 'del'){
             $mark = '<'.$this->admininfo['name'].'>删除位置';
-            $res = $Article->where(array('id'=>$id))->save(array('isdel'=>1));
+            $res = $Advertcontent->where(array('id'=>$id))->save(array('isdel'=>1));
         }elseif($oper == 'sign'){
             $mark = '<'.$this->admininfo['name'].'>标记位置';
-            $res = $Article->where(array('id'=>$id))->save(array('isshow'=>$isshow));
+            $res = $Advertcontent->where(array('id'=>$id))->save(array('isshow'=>$isshow));
         }
         if($res){
             logData($this->admininfo['id'], $mark);
