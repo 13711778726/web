@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="handle-main">
-	<div class="handle_title">添加文章</div>
+	<div class="handle_title">添加广告</div>
 	<div class="handle_content">
 	<form action="{:U('advert/add')}" method="post" enctype="multipart/form-data">
 		<table>
@@ -48,12 +48,16 @@
 				<td><div class="handle-input"><input type="text" name="title" class="input-box"/></div></td>
 			</tr>
 			<tr>
-				<td><label class="handle-label">阅读送：</label></td>
-				<td><div class="handle-input"><input type="text" name="r_send" class="input-box"/>金币</div></td>
+				<td><label class="handle-label">图片宽：</label></td>
+				<td><div class="handle-input"><input type="text" name="width" class="input-box" value="200" /></div></td>
 			</tr>
 			<tr>
-				<td><label class="handle-label">描述：</label></td>
-				<td><div class="handle-area"><textarea name="desc" class="textarea-box" cols="100" rows='8'></textarea></div></td>
+				<td><label class="handle-label">图片高：</label></td>
+				<td><div class="handle-input"><input type="text" name="height" class="input-box" value="200" /></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">文字内容：</label></td>
+				<td><div class="handle-area"><textarea name="content" class="textarea-box" cols="100" rows='8'></textarea></div></td>
 			</tr>
 			
 			<tr>

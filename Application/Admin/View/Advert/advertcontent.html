@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="page-header">
-     <h2>文章管理<small>->文章列表</small></h2>  
+     <h2>广告管理<small>->广告内容</small></h2>  
 </div>
 <div class="row">
         <div class="col-xs-12">
@@ -16,18 +16,16 @@
                 <table>
                     
                     <tr>
-                        <td>文章分类:</td>
+                        <td>广告位:</td>
                         <td>
-                            <select id="catid" class="easyui-combobox"
-                                    data-options="panelHeight:'auto',value:0">
-                                <option value="0">--请选择--</option>
-                                <foreach name="catlist" item="res">    
-                                <option value="{$res.catid}">{$res.name}</option>
+                            <select id="ad_id" class="easyui-combobox"
+                                    data-options="panelHeight:'auto',value:-1">
+                                <option value="-1">--请选择--</option>
+                                <foreach name="advertlist" item="res">    
+                                <option value="{$res.id}">{$res.name}</option>
                                 </foreach>
                             </select>
-                        </td>
-                        <td>标题:</td> 
-                        <td><input type="text" class="easyui-textbox" id="title" name="title" /></td>                                                                 
+                        </td>                                                                                        
                         <td>&emsp;
                             <a onclick="searchGrid()" href="javascript:void(0)"
                                class="easyui-linkbutton">查询</a>
@@ -37,25 +35,6 @@
             </form>
             <table id="grid" style="width:100%;height:600px">
             </table>
-        </div>
-</div>
-<div id="window" class="easyui-window" style="padding: 10px"
-         data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">
-        <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
-            <table cellpadding="5">               
-                <tr>
-                    <td><input type="radio" name="ad_type" value='0' />普通</td>
-                    <td><input type="radio" name="ad_type" value='1' />热门</td>
-                    <td><input type="radio" name="ad_type" value='2' />精华</td>
-                    <td><input type="radio" name="ad_type" value='3' />推荐</td>
-                    <td><input type="radio" name="ad_type" value='4' />置顶</td>
-                </tr> 
-                <input type="hidden" name="ad_id" />                                                               
-            </table>
-        </form>
-        <div style="text-align:center;padding:5px">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-            <!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a> -->
         </div>
 </div>
 <script type="text/javascript"> 
@@ -100,9 +79,9 @@ $('#grid').datagrid({
     } */],
     columns: [
         [
-            {title: 'ID', field: 'ad_id', width: 50, align: 'center'}, 
+            {title: 'ID', field: 'id', width: 50, align: 'center'}, 
             {
-                title: '封面图',
+                title: '图片',
                 field: 'img',
                 width: 64,
                 align: 'center',
@@ -110,36 +89,28 @@ $('#grid').datagrid({
                     return '<img src="__UPLOAD__' + value + '" width="64" heiht="36"/>';
                 }
             },
+            {title: '广告位', field: 'name', width: 100, align: 'center'},
             {title: '广告标题', field: 'title', width: 100, align: 'center'},
             {title: '内容文字', field: 'content', width: 100, align: 'center'},
             {
                 title: '类型', field: 'ad_type', width: 100, align: 'center', formatter: function (value, row, index) {
                 if (value == 0) {
-                    return "普通";
+                    return "文字";
                 }
                 if (value == 1) {
-                    return "热门";
-                }
-                if (value == 2) {
-                    return "精华";
-                }
-                if (value == 3) {
-                    return "推荐";
-                }
-                if (value == 4) {
-                    return "置顶";
-                }
+                    return "图片";
+                }                
                 }
             }, 
             {
                 title: '操作', field: 'opt', width: 120, align: 'center', formatter: function (value, row, index) {
                     if(row.isshow == 1){
-                            var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.ad_id + '\',0)"  href="javascript:void(0)">隐藏</a> | '; 
+                            var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.id + '\',0)"  href="javascript:void(0)">隐藏</a> | '; 
                         }else{
-                            var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.ad_id + '\',1)"  href="javascript:void(0)">显示</a> | '; 
+                            var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.id + '\',1)"  href="javascript:void(0)">显示</a> | '; 
                         }
-                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + row.ad_id + '\')"  href="javascript:void(0)">編輯</a> | ';
-                var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.ad_id + '\')"  href="javascript:void(0)">刪除</a>';
+                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + row.id + '\')"  href="javascript:void(0)">編輯</a> | ';
+                var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.id + '\')"  href="javascript:void(0)">刪除</a>';
                 return btn + btn1 + btn2;
             }
             }
@@ -147,25 +118,21 @@ $('#grid').datagrid({
     ],
 });
 function searchGrid() {
-    var title = $('#title').textbox('getValue');
     var ad_id = $('#ad_id').textbox('getValue');
     $('#grid').datagrid('reload', {
-        title: title,
         ad_id:ad_id
     });
 }
 var selectRow;
-var ctrlUrl = "{:U('advert/edit')}";
+var ctrlUrl = "{:U('advert/editad')}";
 function add() {
     window.location.href='{:U("Advert/add")}';
 }
 function edit(index) {
-    window.location.href='{:U("advert/update")}?ad_id='+index;
+    window.location.href='{:U("advert/update")}?id='+index;
 }
-function checkshow(ad_id,isshow){
-    $.post(ctrlUrl,{ad_id:ad_id,isshow:isshow,oper:'sign'},function(res){
-        alert(ad_id)
-         alert(isshow)
+function checkshow(id,isshow){
+    $.post(ctrlUrl,{id:id,isshow:isshow,oper:'sign'},function(res){
         if(res.status == 0){
             $.messager.alert('标记位置','标记失败！！','error');
             $('#grid').datagrid('reload');
@@ -174,14 +141,6 @@ function checkshow(ad_id,isshow){
             $('#grid').datagrid('reload');
         }
     });
-}
-function sign(index,ad_type){
-    $('#window').window({
-        title: "标记文章"
-    });
-    $(":radio[name='ad_type'][value='" + ad_type + "']").prop("checked", "checked");
-    $("input[name='ad_id']").val(index);
-    $('#window').window('open');
 }
 function del(ad_id) {
     $.messager.confirm('刪除分类', '你確定要刪除該信息嗎?', function (r) {

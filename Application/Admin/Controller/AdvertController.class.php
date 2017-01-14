@@ -83,7 +83,7 @@ class AdvertController extends CommonController {
         }
         $pageSize = I('request.rows',20,'int');
         $list=$Advertcontent->where($where)
-        ->field('a.name,cdb_ad_content.*')->join('LEFT JOIN cdb_advert a ON a.id=cdb_ad_content.ad_id')->page($page, $pageSize)->select();
+        ->field('a.name,cdb_ad_content.*')->join('LEFT JOIN cdb_advert a ON a.id=cdb_ad_content.ad_id AND a.isshow=1')->page($page, $pageSize)->select();
         foreach ($list as $key=>$val){
             $list[$key]['addtime'] = date('Y-m-d H:i:s',$val['addtime']);
         }
@@ -122,7 +122,7 @@ class AdvertController extends CommonController {
             $ad_type = I('request.ad_type',0,'int');
             $title = I('request.title','','string');
             $content = I('request.content','','string');
-            $width = I('reqeust.width','200','int');
+            $width = I('request.width','200','int');
             $height = I('request.height','200','int');
             $ad_id = I('request.ad_id',0,'int');
             $imgs = upload($_FILES['img'],$width,$height);
@@ -136,7 +136,7 @@ class AdvertController extends CommonController {
             if($res){
                 $mark = '<'.$this->admininfo['name'].'>添加位置内容';
                 logData($this->admininfo['id'], $mark);
-                $this->success('添加成功','articlelist');
+                $this->success('添加成功','advertcontent');
             }else{
                 $this->error('添加失败');
             }
@@ -157,7 +157,7 @@ class AdvertController extends CommonController {
             $ad_type = I('request.ad_type',0,'int');
             $title = I('request.title','','string');
             $content = I('request.content','','string');
-            $width = I('reqeust.width','200','int');
+            $width = I('request.width','200','int');
             $height = I('request.height','200','int');
             $imgs = upload($_FILES['img'],$width,$height);
             $ad_id = I('request.ad_id',0,'int');
@@ -170,7 +170,7 @@ class AdvertController extends CommonController {
             if($res){
                 $mark = '<'.$this->admininfo['name'].'>修改位置内容';
                 logData($this->admininfo['id'], $mark);
-                $this->success('修改成功','articlelist');
+                $this->success('修改成功','advertcontent');
             }else{
                 $this->error('修改失败');
             }
