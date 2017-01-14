@@ -15,40 +15,50 @@ class IndexController extends CommonController {
             $articlelist[$k]['addtime'] = timeGange($v['addtime']);
             $articlelist[$k]['img'] = SITE_URL.'/Public/upload/Admin/'.$v['img'];
         }
+        $k0 = 0;$k1 = 0; $k2 = 0; $k3 = 0; $k4 = 0;
         foreach ($articlelist as $key=>$val){
             switch ($val['type']){
                 case 0 :
+                    if($k0 == 8) break;
                     $arr[$val['type']]['labelname'] = '首页推荐';
                     $arr[$val['type']]['list'][] = $val;
-                    $arr[$val['type']]['clicknum'][] = $val['clicknum'];
+                    $arr[$val['type']]['type'] = $val['type'];
+                    $k0++;
                     break;
                 case 1 :
+                    if($k1 == 8) break;
                     $arr[$val['type']]['labelname'] = '热门内容';
                     $arr[$val['type']]['list'][] = $val;
-                    $arr[$val['type']]['clicknum'][] = $val['clicknum'];
+                    $arr[$val['type']]['type'] = $val['type'];
+                    $k1++;
                     break;
                 case 2 :
+                    if($k2 == 8) break;
                     $arr[$val['type']]['labelname'] = '精华内容';
                     $arr[$val['type']]['list'][] = $val;
-                    $arr[$val['type']]['clicknum'][] = $val['clicknum'];
+                    $arr[$val['type']]['type'] = $val['type'];
+                    $k2++;
                     break;
                 case 3 :
+                    if($k3 == 8) break;
                     $arr[$val['type']]['labelname'] = '官方推荐';
                     $arr[$val['type']]['list'][] = $val;
-                    $arr[$val['type']]['clicknum'][] = $val['clicknum'];
+                    $arr[$val['type']]['type'] = $val['type'];
+                    $k3++;
                     break;
                 case 4 :
+                    if($k4 == 8) break;
                     $arr[$val['type']]['labelname'] = '置顶精华';
                     $arr[$val['type']]['list'][] = $val;
-                    $arr[$val['type']]['clicknum'][] = $val['clicknum'];
+                    $arr[$val['type']]['type'] = $val['type'];
+                    $k4++;
                     break;
             }
         }
         $arr = array_values($arr);   //去掉数组键值
         foreach ($arr as $k=>$v){
-            $arr[$k]['clicklist'] = sortByIds($v['list'],$v['clicknum'],'clicknum');
-            array_multisort($v['clicknum'],SORT_DESC,$arr[$k]['clicklist']);//按阅读量排序
-            unset($arr[$k]['clicknum']);
+            $arr[$k]['clicklist'] = $Article->field('title,articleid')->where(array('type'=>$v['type']))->page(1,10)->order('clicknum DESC')->select();
+            unset($arr[$k]['type']);
         }
         $this->assign('arr',$arr);
         $this->assign('catlist',$catlist);
