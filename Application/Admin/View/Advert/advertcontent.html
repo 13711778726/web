@@ -142,10 +142,10 @@ function checkshow(id,isshow){
         }
     });
 }
-function del(ad_id) {
+function del(id) {
     $.messager.confirm('刪除分类', '你確定要刪除該信息嗎?', function (r) {
         if (r) {
-            $.post(ctrlUrl, {ad_id: ad_id, oper: 'del'}, function (data) {
+            $.post(ctrlUrl, {id: id, oper: 'del'}, function (data) {
                 if (data.status == 0) {
                     $.messager.alert('删除数据','删除失败！！','error');
                     $('#grid').datagrid('reload');
