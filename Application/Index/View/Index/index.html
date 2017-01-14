@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="__CSS__/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/slicebox.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/custom.css" />
+<script type="text/javascript" src="__JS__/modernizr.custom.46884.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -10,14 +13,74 @@
 <div class="main">
 	<div class="index-banner">
 		<div class="index-banner-left"></div>
-		<div class="index-banner-right"></div>
+		<div class="index-banner-right">
+			<div class="wrapper" style="width:700px;height:100%;overflow:hidden;margin:0 auto;">
+
+				<ul id="sb-slider" class="sb-slider" style="max-width:800px;">
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/1.jpg" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>Creative Lifesaver</h3>
+						</div>
+					</li>
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/2.jpg" alt="image2"/></a>
+						<div class="sb-description">
+							<h3>Honest Entertainer</h3>
+						
+					</li>
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/3.jpg" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>Brave Astronaut</h3>
+						</div>
+					</li>
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/4.jpg" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>Affectionate Decision Maker</h3>
+						</div>
+					</li>
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/5.jpg" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>Faithful Investor</h3>
+						</div>
+					</li>
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/6.jpg" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>Groundbreaking Artist</h3>
+						</div>
+					</li>
+					<li>
+						<a href="http://www.17sucai.com/" target="_blank"><img src="__IMG__/7.jpg" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>Selfless Philantropist</h3>
+						</div>
+					</li>
+				</ul>
+
+				<div id="shadow" class="shadow"></div>
+
+				<div id="nav-arrows" class="nav-arrows">
+					<a href="#">Next</a>
+					<a href="#">Previous</a>
+				</div>
+
+			</div>
+		</div>
 	</div>
 	<div class="index-content">
 		<div class="index-content-left">
 			<div class="index-content-left-title"></div>
 			<div class="index-content-left-main">
 				<figure>
-				
+					<div class="pic_box"></div>
+					<div class="lia_box">
+						<span class="fz">专题内容</span>
+						<span class="nz">标题内容</span>
+					</div>
 				</figure>
 				<figure>
 				
@@ -80,5 +143,73 @@
 	</div>	
 </div>
 <include file="Common:footer"/>
+<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.slicebox.js"></script>
+<script type="text/javascript">
+$(function() {
+	
+	var Page = (function() {
+
+		var $navArrows = $( '#nav-arrows' ).hide(),
+			$navOptions = $( '#nav-options' ).hide(),
+			$shadow = $( '#shadow' ).hide(),
+			slicebox = $( '#sb-slider' ).slicebox( {
+				onReady : function() {
+					slicebox.play();
+					$navArrows.show();
+					$navOptions.show();
+					$shadow.show();
+
+				},
+				orientation : 'h',
+				cuboidsCount : 3
+			} ),
+			
+			init = function() {
+
+				initEvents();
+				
+			},
+			initEvents = function() {
+
+				// add navigation events
+				$navArrows.children( ':first' ).on( 'click', function() {
+
+					slicebox.next();
+					return false;
+
+				} );
+
+				$navArrows.children( ':last' ).on( 'click', function() {
+					
+					slicebox.previous();
+					return false;
+
+				} );
+
+				$( '#navPlay' ).on( 'click', function() {
+					
+					slicebox.play();
+					return false;
+
+				} );
+
+				$( '#navPause' ).on( 'click', function() {
+					
+					slicebox.pause();
+					return false;
+
+				} );
+
+			};
+
+			return { init : init };
+
+	})();
+
+	Page.init();
+
+});
+</script>
 </body>
 </html>
