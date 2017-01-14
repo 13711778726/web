@@ -60,6 +60,36 @@ function timeGange($timeData){
     }
 }
 /**
+ * 获取数组中的id数组
+ * @param unknown $arr
+ * @param unknown $field
+ */
+function getIds($arr, $field)
+{
+    $ids = [];
+    if(!is_array($arr)){
+        return $ids;
+    }
+    foreach ($arr as $v) {
+        array_push($ids, $v[$field]);
+    }
+    return $ids;
+}
+/*根据给的id数组按照id顺序来排序*/
+function sortByIds($arr, $ids, $field)
+{
+    $tem = [];
+    foreach ($ids as $val) {
+        foreach ($arr as $v) {
+            if ($v[$field] == $val) {
+                $tem[] = $v;
+                break;
+            }
+        }
+    }
+    return $tem;
+}
+/**
  * 操作日志
  * @param unknown $agentid
  * @param unknown $mark

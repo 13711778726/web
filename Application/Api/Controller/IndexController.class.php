@@ -8,7 +8,7 @@ class IndexController extends CommonController {
         $articlelist = $Article
         ->field('cdb_article.articleid,cdb_article.title,cdb_article.img,cdb_article.addtime,cdb_article.type,c.name')
         ->join('LEFT JOIN cdb_cat c ON c.catid=cdb_article.catid')
-        ->where(array('cdb_article.isdel'=>0))->order('cdb_article.type DESC')->select();
+        ->where(array('cdb_article.isdel'=>0))->order('cdb_article.addtime DESC')->select();
         foreach ($articlelist as $k=>$v){
             $articlelist[$k]['addtime'] = timeGange($v['addtime']);
             $articlelist[$k]['img'] = SITE_URL.'/Public/upload/Admin/'.$v['img'];
