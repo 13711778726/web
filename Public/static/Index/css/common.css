@@ -16,7 +16,7 @@ a{
 	width:100%;
 	min-width:1263px;
 	height:70px;
-	background-color:#333;
+	background-color:#ffff;
 	box-shadow:0 1px 10px rgba(0,0,0,0.3); /*阴影透明度*/
 	position:relative;
 	z-index:999;
@@ -32,7 +32,7 @@ ul,ol{
 #header .header-logo{
 	width:240px;
 	height:70px;
-	background-color:red;
+	background-color:#ffff;
 	text-indent:-9999px;
 	float:left;
 }
@@ -49,12 +49,20 @@ ul,ol{
 	text-align:center;
 }
 #header .header-link a{
-	color:#eee;
+	color:#333;
 	display:block;
 }
 .header-link a:hover,.active a{
-	background-color:#000;
+	background-color:red;
+	color:#eee;
 }
+.main{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	min-width:1263px;
+}
+
 #footer{
 	height:360px;
 	background-color:#222;
