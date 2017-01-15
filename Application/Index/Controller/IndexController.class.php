@@ -60,6 +60,7 @@ class IndexController extends CommonController {
             $arr[$k]['clicklist'] = $Article->field('title,articleid')->where(array('type'=>$v['type']))->page(1,10)->order('clicknum DESC')->select();
             unset($arr[$k]['type']);
         }
+        //print_r($arr);exit;
         $this->assign('arr',$arr);
         $this->assign('catlist',$catlist);
         $this->display();
