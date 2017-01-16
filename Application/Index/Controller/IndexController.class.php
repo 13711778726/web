@@ -66,7 +66,7 @@ class IndexController extends CommonController {
         //首页banner
         $advertid = advertData('pc_index_banner_pic');
         $advertcontentDb = M('ad_content');
-        $adlist = $advertcontentDb->field('title,img')->where(array('ad_id'=>$advertid))->select();
+        $adlist = $advertcontentDb->field('title,img,url')->where(array('ad_id'=>$advertid,'isdel'=>0,'isshow'=>1))->select();
         $this->assign('adlist',$adlist);
         $this->assign('arr',$arr);
         $this->assign('catlist',$catlist);

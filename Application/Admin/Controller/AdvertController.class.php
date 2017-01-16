@@ -125,13 +125,14 @@ class AdvertController extends CommonController {
             $width = I('request.width','200','int');
             $height = I('request.height','200','int');
             $ad_id = I('request.ad_id',0,'int');
+            $url = I('request.url','','string');
             $imgs = upload($_FILES['img'],$width,$height);
             if($imgs){
                 $img = $imgs['img'][0]['savethumbname'][0];
             }else{
                 $img = '';
             }          
-            $data = ['ad_type'=>$ad_type,'title'=>$title,'content'=>$content,'width'=>$width,'height'=>$height,'addtime'=>time(),'img'=>$img,'ad_id'=>$ad_id];
+            $data = ['ad_type'=>$ad_type,'title'=>$title,'content'=>$content,'width'=>$width,'height'=>$height,'addtime'=>time(),'img'=>$img,'ad_id'=>$ad_id,'url'=>$url];
             $res = $Advertcontent->add($data);
             if($res){
                 $mark = '<'.$this->admininfo['name'].'>添加位置内容';
@@ -161,7 +162,8 @@ class AdvertController extends CommonController {
             $height = I('request.height','200','int');
             $imgs = upload($_FILES['img'],$width,$height);
             $ad_id = I('request.ad_id',0,'int');
-            $data = ['ad_type'=>$ad_type,'title'=>$title,'content'=>$content,'width'=>$width,'height'=>$height,'ad_id'=>$ad_id];
+            $url = I('request.url','','string');
+            $data = ['ad_type'=>$ad_type,'title'=>$title,'content'=>$content,'width'=>$width,'height'=>$height,'ad_id'=>$ad_id,'url'=>$url];
             if($imgs){
                 @unlink(UPLOAD_PATH.'Admin/'.$info['img']);
                 $data['img'] = $imgs['img'][0]['savethumbname'][0];
