@@ -57,10 +57,17 @@ class IndexController extends CommonController {
         }
         $arr = array_values($arr);   //去掉数组键值
         foreach ($arr as $k=>$v){
-            $arr[$k]['clicklist'] = $Article->field('title,articleid')->where(array('type'=>$v['type']))->page(1,10)->order('clicknum DESC')->select();
+            $arr[$k]['clicklist'] = $Article->field('title,articleid,addtime')->where(array('type'=>$v['type']))->page(1,10)->order('clicknum DESC')->select();
+            foreach ($arr[$k]['clicklist'] as $key=>$val){
+                $arr[$k]['clicklist'][$key]['addtime'] = date('Y-m-d',$val['addtime']);
+            }
             unset($arr[$k]['type']);
         }
-        //print_r($arr);exit;
+        //首页banner
+        $advertid = advertData('pc_index_banner_pic');
+        $advertcontentDb = M('ad_content');
+        $adlist = $advertcontentDb->field('title,img')->where(array('ad_id'=>$advertid))->select();
+        $this->assign('adlist',$adlist);
         $this->assign('arr',$arr);
         $this->assign('catlist',$catlist);
         $this->display();

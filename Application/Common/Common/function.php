@@ -106,6 +106,15 @@ function logData($agentid,$mark){
     }
 }
 /**
+ * 获取广告位id
+ * @param unknown $mark
+ */
+function advertData($mark){
+    $advert = M('advert');
+    $res = $advert->where(array('sign'=>$mark))->getField('id');
+    return $res;
+}
+/**
  * 下级管理员列表
  * @param unknown $acct_id
  * @param unknown $n
