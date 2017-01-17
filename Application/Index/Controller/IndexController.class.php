@@ -19,35 +19,35 @@ class IndexController extends CommonController {
         foreach ($articlelist as $key=>$val){
             switch ($val['type']){
                 case 0 :
-                    if($k0 == 8) break;
+                    if($k0 == 12) break;
                     $arr[$val['type']]['labelname'] = '首页推荐';
                     $arr[$val['type']]['list'][] = $val;
                     $arr[$val['type']]['type'] = $val['type'];
                     $k0++;
                     break;
                 case 1 :
-                    if($k1 == 8) break;
+                    if($k1 == 12) break;
                     $arr[$val['type']]['labelname'] = '热门内容';
                     $arr[$val['type']]['list'][] = $val;
                     $arr[$val['type']]['type'] = $val['type'];
                     $k1++;
                     break;
                 case 2 :
-                    if($k2 == 8) break;
+                    if($k2 == 12) break;
                     $arr[$val['type']]['labelname'] = '精华内容';
                     $arr[$val['type']]['list'][] = $val;
                     $arr[$val['type']]['type'] = $val['type'];
                     $k2++;
                     break;
                 case 3 :
-                    if($k3 == 8) break;
+                    if($k3 == 12) break;
                     $arr[$val['type']]['labelname'] = '官方推荐';
                     $arr[$val['type']]['list'][] = $val;
                     $arr[$val['type']]['type'] = $val['type'];
                     $k3++;
                     break;
                 case 4 :
-                    if($k4 == 8) break;
+                    if($k4 == 12) break;
                     $arr[$val['type']]['labelname'] = '置顶精华';
                     $arr[$val['type']]['list'][] = $val;
                     $arr[$val['type']]['type'] = $val['type'];

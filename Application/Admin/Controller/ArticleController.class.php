@@ -79,7 +79,7 @@ class ArticleController extends CommonController {
             $desc = I('request.desc','','string');
             $r_send = I('request.r_send',0,'int');
             $detail = $_POST['detail'];
-            $imgs = upload($_FILES['img'],200,200);
+            $imgs = upload($_FILES['img'],200,100);
             $img = $imgs['img'][0]['savethumbname'][0];
             $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'addtime'=>time(),'img'=>$img,'r_send'=>$r_send];
             $res = $Article->add($data);
@@ -109,7 +109,7 @@ class ArticleController extends CommonController {
             $detail = $_POST['detail'];
             $r_send = I('request.r_send',0,'int');
             $data = ['title'=>$title,'desc'=>$desc,'detail'=>$detail,'catid'=>$catid,'updatetime'=>time(),'r_send'=>$r_send];
-            $imgs = upload($_FILES['img'],200,200);
+            $imgs = upload($_FILES['img'],200,100);
             if($imgs){
                 @unlink(UPLOAD_PATH.'Admin/'.$article['img']);
                 $data['img'] = $imgs['img'][0]['savethumbname'][0];

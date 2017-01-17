@@ -50,9 +50,9 @@
     display: inline-block;
     padding: 0px;
     border-radius: 4px;
-    margin:2px 8px 0 0;
+    margin:9px 8px 0 0;
     width: 217px;
-	height:230px;
+	height:145px;
     text-align: left;
     position: relative;
 	float:left;
@@ -115,8 +115,8 @@
 }
 /*right-content end*/
 /*内容栏end*/
-.pic_box{width: 200px;height: 200px;margin:0px auto;/* border:1px solid #e1e1e1; */}
-.pic_box img{width: 200px;height: 200px;}
-.lia_box{overflow: hidden;padding:0 10px;box-sizing: border-box;width: 100%;}
+.pic_box{width: 215px;height: 100px;margin:0px auto;/* border:1px solid #e1e1e1; */}
+.pic_box img{width: 215px;height: 100px;}
+.lia_box{overflow: hidden;padding:10px;box-sizing: border-box;width: 100%;}
 .fz{float: left;width: 50%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color:#333;font-size:14px;}
 .nz{float: right;width: 50%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color:#333;font-size:14px;text-align: right;}
