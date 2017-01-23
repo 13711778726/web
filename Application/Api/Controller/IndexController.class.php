@@ -5,6 +5,7 @@ class IndexController extends CommonController {
         //获取首页模块内容
         $Article = M('article');
         $arr = [];
+        $str = [];
         $articlelist = $Article
         ->field('cdb_article.articleid,cdb_article.title,cdb_article.img,cdb_article.addtime,cdb_article.type,c.name')
         ->join('LEFT JOIN cdb_cat c ON c.catid=cdb_article.catid')
@@ -37,10 +38,20 @@ class IndexController extends CommonController {
                     break;
             } 
         }
-        $arr = array_values($arr);   //去掉数组键值
+        //首页导航
+        $Cat = M('cat');
+        $where = ['isdel'=>0,'isshow'=>1];
+        $list=$Cat->where($where)->field('catid,name')->select();
+        $str['catlist'] = $list;
+        //首页幻灯
+        $advertid = advertData('pc_index_banner_pic');
+        $advertcontentDb = M('ad_content');
+        $adlist = $advertcontentDb->field('title,img,url')->where(array('ad_id'=>$advertid,'isdel'=>0,'isshow'=>1))->select();
+        $str['adlist'] = $adlist;
+        $str['artlist'] = array_values($arr);   //去掉数组键值
         $this->return['status'] = 1;
         $this->return['info'] = '首页内容块';
-        $this->return['data'] = $arr;
+        $this->return['data'] = $str;
         $this->ajaxReturn($this->return);
     }
 }
