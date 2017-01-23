@@ -29,14 +29,21 @@ class UserController extends CommonController {
         $password = I('request.password','','string');
         $repassword = I('request.repassword','string');
         if(empty($username)){
-            $this->return['info'] = '手机号码不能为空';  
+            $this->return['info'] = '手机号码不能为空';
+            $this->ajaxReturn($this->return);
+        }
+        if(!chenkPhone($username)){
+            $this->return['info'] = '您输入的手机号码有误！';
+            $this->ajaxReturn($this->return);
         }
         if($password!=$repassword){
             $this->return['info'] = '两次输入的密码不一致';
+            $this->ajaxReturn($this->return);
         }
         $res = $user->where(array('username'=>$username))->find();
         if($res){
             $this->return['info'] = '该用户已经存在';
+            $this->ajaxReturn($this->return);
         }
         $data = ['username'=>$username,'password'=>$password,'email'=>$email,'nickname'=>$nickname,'addtime'=>time()];
         $re = $user->add($data);
@@ -100,11 +107,17 @@ class UserController extends CommonController {
     }
     //添加好友
     public function addfriend(){
+        
         $this->isLogin();
         $friend = M('friend');
         $ruserid = I('request.ruserid',0,'int');
         if($ruserid == 0){
             $this->return['info'] = '请选择要添加的好友';
+            $this->ajaxReturn($this->return);
+        }
+        $re = $friend->where(array('userid'=>$this->userid,'ruserid'=>$ruserid))->find();
+        if($re){
+            $this->return['info'] = '您已经添加该好友';
             $this->ajaxReturn($this->return);
         }
         $data = ['userid'=>$this->userid,'ruserid'=>$ruserid,'addtime'=>time()];
@@ -142,9 +155,9 @@ class UserController extends CommonController {
         $page = I('request.page',1,'int');
         $rows = I('request.rows',10,'int');
         $user = M('user');
-        $type = I('request.type',0,'int');
+        $type = I('request.type',-1,'int');
         $selectinfo = I('request.selectinfo','');
-        
+        $where['isdel'] = 0;
         if($type == 0){
             $where['userid'] = $selectinfo; 
         }elseif($type == 1){
@@ -160,10 +173,10 @@ class UserController extends CommonController {
             $this->ajaxReturn($this->return);
         }
         foreach ($info as $key=>$val){
-            if(!empty($info['userimg'])){
-    	        $info['userimg'] = SITE_URL.'/Public/upload/Admin/'.$info['userimg'];
+            if(!empty($val['userimg'])){
+    	        $info[$key]['userimg'] = SITE_URL.'/Public/upload/Admin/'.$info[$key]['userimg'];
     	    }else{
-    	        $info['userimg'] = SITE_URL.'/Public/upload/Admin/error.png';
+    	        $info[$key]['userimg'] = SITE_URL.'/Public/upload/Admin/error.png';
     	    } 
         }
         $this->return['status'] = 1;
