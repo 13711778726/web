@@ -6,10 +6,15 @@ class IndexController extends CommonController {
         $Article = M('article');
         $arr = [];
         $str = [];
+        $wheres = ['cdb_article.isdel'=>0];
+        $catid = I('request.catid',0,'int');
+        if($catid != 0){
+            $wheres['cdb_article.catid'] = $catid;
+        }
         $articlelist = $Article
-        ->field('cdb_article.articleid,cdb_article.title,cdb_article.img,cdb_article.addtime,cdb_article.type,c.name')
+        ->field('cdb_article.articleid,cdb_article.title,cdb_article.img,cdb_article.addtime,cdb_article.type,c.name,cdb_article.clicknum,cdb_article.collectnum')
         ->join('LEFT JOIN cdb_cat c ON c.catid=cdb_article.catid')
-        ->where(array('cdb_article.isdel'=>0))->order('cdb_article.addtime DESC')->select();
+        ->where($wheres)->order('cdb_article.addtime DESC')->select();
         foreach ($articlelist as $k=>$v){
             $articlelist[$k]['addtime'] = timeGange($v['addtime']);
             $articlelist[$k]['img'] = SITE_URL.'/Public/upload/Admin/'.$v['img'];

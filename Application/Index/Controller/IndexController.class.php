@@ -8,7 +8,7 @@ class IndexController extends CommonController {
         $Article = M('article');
         $arr = [];
         $articlelist = $Article
-        ->field('cdb_article.articleid,cdb_article.title,cdb_article.img,cdb_article.addtime,cdb_article.type,cdb_article.clicknum,c.name')
+        ->field('cdb_article.articleid,cdb_article.title,cdb_article.img,cdb_article.addtime,cdb_article.type,cdb_article.clicknum,c.name,cdb_article.collectnum')
         ->join('LEFT JOIN cdb_cat c ON c.catid=cdb_article.catid')
         ->where(array('cdb_article.isdel'=>0))->order('cdb_article.addtime DESC')->select();
         foreach ($articlelist as $k=>$v){
