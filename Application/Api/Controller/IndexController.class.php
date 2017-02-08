@@ -52,6 +52,9 @@ class IndexController extends CommonController {
         $advertid = advertData('app_index_banner_pic');
         $advertcontentDb = M('ad_content');
         $adlist = $advertcontentDb->field('title,img,url')->where(array('ad_id'=>$advertid,'isdel'=>0,'isshow'=>1))->select();
+        foreach ($adlist as $k=>$v){
+            $adlist[$k]['img'] = SITE_URL.'/Public/upload/Admin/'.$v['img'];
+        }
         $str['adlist'] = $adlist;
         $str['artlist'] = array_values($arr);   //去掉数组键值
         $this->return['status'] = 1;
