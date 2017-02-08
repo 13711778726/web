@@ -44,7 +44,7 @@ class IndexController extends CommonController {
         $list=$Cat->where($where)->field('catid,name')->select();
         $str['catlist'] = $list;
         //首页幻灯
-        $advertid = advertData('pc_index_banner_pic');
+        $advertid = advertData('app_index_banner_pic');
         $advertcontentDb = M('ad_content');
         $adlist = $advertcontentDb->field('title,img,url')->where(array('ad_id'=>$advertid,'isdel'=>0,'isshow'=>1))->select();
         $str['adlist'] = $adlist;
