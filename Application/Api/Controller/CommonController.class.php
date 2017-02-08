@@ -50,6 +50,7 @@ class CommonController extends Controller{
 	    //我的动态数
 	    $dycount = $dynamics->where(array('userid'=>$userid))->count();
 	    //我的收藏数
+	    $userinfo['mycolls'] = 0;
 	    $userinfo['myfriendnum'] = $friendcount;
 	    $userinfo['mydynum'] = $dycount;
 	    return $userinfo;
