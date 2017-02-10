@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/handle.css" />
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__JS__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__JS__/ueditor/ueditor.all.js"></script>
+</head>
+<body>
+<div class="handle-main">
+	<div class="handle_title">修改奖品</div>
+	<div class="handle_content">
+	<form action="{:U('Activity/update')}" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label class="handle-label">奖品图片：</label></td>
+				<td><div class="handle-img"><img src="__UPLOAD__/{$info.img}" width="200" height="100"/></div></td>
+			</tr>			
+			<tr>
+				<td><label class="handle-label">上传图片：</label></td>
+				<td><input type="file" name="img" /><tab style="color:red;">图片尺寸为200X100</tab></td>
+			</tr>			
+			<tr>
+				<td><label class="handle-label">奖品名称：</label></td>
+				<td><div class="handle-input"><input type="text" name="name" class="input-box" value="{$info.name}"/></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">奖品数量：</label></td>
+				<td><div class="handle-input"><input type="text" name="num" class="input-box" value="{$info.num}"/></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">中奖概率：</label></td>
+				<td><div class="handle-input"><input type="text" name="gailv" class="input-box" value="{$info.gailv}"/>分之1</div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">排序：</label></td>
+				<td><div class="handle-input"><input type="text" name="sort" class="input-box" value="{$info.sort}"/></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">描述：</label></td>
+				<td><div class="handle-area"><textarea name="desc" class="textarea-box" cols="100" rows='8'>{$info.desc}</textarea></div></td>
+			</tr>
+			<tr>
+				<td colspan="2"><div class="handle-submit"><input type="submit" value="确定" class="submit-box">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="submit-box"></div></td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="{$info.id}">
+	</form>	
+	</div>
+</div>
+</body>
+</html>

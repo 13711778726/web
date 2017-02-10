@@ -90,6 +90,57 @@ function sortByIds($arr, $ids, $field)
     }
     return $tem;
 }
+
+/**
+ * 求最大公约数
+ * @param unknown $a
+ * @param unknown $b
+ * @return unknown
+ */
+function Gnum($a,$b){
+    if(($a-$b)>0){
+        $max = $a;$min = $b;
+    }else{
+        $max = $b;$min = $a;
+    }
+    $temp = 0;
+    while(($temp=$max%$min)!=0){
+        $max = $min;
+        $min = $temp;
+    }
+    return $min;
+}
+/**
+ * 求最小公倍数
+ * @param unknown $a
+ * @param unknown $b
+ * @return number
+ */
+function Lnum($a,$b){
+    $res = Gnum($a, $b);
+    return $a*$b/$res;
+}
+/**
+ * 概率抽奖
+ * @param unknown $proArr
+ * @return Ambigous <string, unknown>
+ */
+function award_rand($proArr,$temp) {
+    $result = '';
+    //概率数组循环
+    foreach ($proArr as $key => $proCur) {
+        $randNum = mt_rand(1, $temp);
+        //从第一个区间开始匹配抽的随机数落在哪个奖品区间
+        if ($randNum <= $proCur['interval']) {
+            $result = $proArr[$key];   //中奖区间,返回奖品所在数组
+            break;
+        } else {
+            $temp -= $proCur['interval'];   //未落中的区间从数组中去掉，直到落中的区间
+        }
+    }
+    unset ($temp);
+    return $result;
+}
 /**
  * 操作日志
  * @param unknown $agentid

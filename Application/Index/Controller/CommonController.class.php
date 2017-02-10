@@ -2,6 +2,7 @@
 namespace Index\Controller;
 use Think\Controller;
 class CommonController extends Controller {
+    protected $return = array("status"=>0, "info"=>"", "data"=>array());
     public function _initialize() {
         //self::com_head();
     }
