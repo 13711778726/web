@@ -13,6 +13,7 @@ function chenkPhone($mobile) {
  * 正则替换内容中的图片
  */
 function  filcontent($content){
+    $matchs = array();
     $match_count = preg_match_all ( "/<img\s+src=[\\\'| \\\"](.*?(?:[\.gif|\.jpg]))[\\\'|\\\"].*?[\/]?>/", $content, $matchs );
     $img='';
     for($i=0;$i<$match_count;$i++){
