@@ -9,6 +9,7 @@ class ActivityController extends CommonController {
     }
     
     public function awardAjax(){
+        $this->isLogin();
         $Award = M('award');
         $awardList = $Award->where(array('isdel'=>0,'gailv'=>array('GT',0),'num'=>array('GT',0)))->select();
         if(empty($awardList)){
@@ -46,7 +47,7 @@ class ActivityController extends CommonController {
         //抽奖中奖结果(返回中奖的数组列,包括未中奖列)
         $result = award_rand($awardList,$temp);
         $AwardRecord = M('award_record');
-        $data = ['userid'=>1,'addtime'=>time(),'awardid'=>$result['id']];
+        $data = ['userid'=>$this->userid,'addtime'=>time(),'awardid'=>$result['id']];
         if($result['id']!=0){
             //中奖
             $data['mark'] = '中了'.$result['name'];
