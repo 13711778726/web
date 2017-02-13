@@ -10,7 +10,7 @@ class EmailService{
      * SMTP 安全协议
      * @var unknown
      */
-    private $SMTPSecure = 'ssl';
+    //private $SMTPSecure = 'ssl';
     /**
      * 是否开启认证
      * @var unknown
@@ -92,7 +92,7 @@ class EmailService{
 
         $mail = new PHPMailer(true);
         $EmailService = new EmailService();
-        print_r($EmailService);exit;
+
         $mail->IsSMTP();
         $mail->SMTPSecure = $EmailService->SMTPSecure;
         $mail->CharSet    = $EmailService->CharSet; //设置邮件的字符编码，这很重要，不然中文乱码
@@ -111,6 +111,7 @@ class EmailService{
         $mail->Body       = $content;
         $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!";
         $mail->WordWrap   = 80; // 设置每行字符串的长度
+
         if($file){
             $mail->AddAttachment($file);  //可以添加附件
         }
