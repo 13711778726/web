@@ -1,14 +1,18 @@
 <?php
 namespace Index\Controller;
 use Think\Controller;
+use Think\Cache\Driver\Redis;
 class CommonController extends Controller {
     protected $return = array("status"=>0, "info"=>"", "data"=>array());
     protected $userinfo = null;
     protected $userid = null;
+    protected $redis = null;
+    protected $token = null;
     public function _initialize() {
         $userinfo = session("userinfo");
         $this->userid = isset($userinfo['userid']) ? $userinfo['userid'] : '';
         $this->userinfo = $userinfo;
+        $this->redis = new Redis();
     }
     public function catlist(){
         $Cat = M('cat');
