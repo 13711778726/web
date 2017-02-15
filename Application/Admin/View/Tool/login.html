@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/login.css"/>
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<include file="Common:header"/>
+</head>
+<body>
+<div class="login-box">
+	<div class="table-box">
+			<table width='70%' align='center'>
+				<tr>
+<!-- 					<td><label class="login-label">账号：</label></td> -->
+					<td colspan='2'><input type="text" name="name" class="login-input"/></td>
+				</tr>
+				<tr>
+					<!-- <td><label class="login-label">密码：</label></td> -->
+					<td colspan='2'><input type="password" name="password" class="login-input"/></td>
+				</tr>
+				<tr>
+					<td colspan='2'><div class="button-div"><button class="login-button" onclick="login();">登录</button></div></td>
+				</tr>
+			</table>
+	</div>
+<script>
+if(window !=top){  
+    top.location.href=location.href;  
+} 
+function login(){
+	var username = $('input[name="name"]').val();
+	var password = $('input[name="password"]').val();
+	$.post('{:U("Tool/login")}',{username:username,password:password},function(res){
+		if(res.status){
+			window.location.href='{:U("Index/index")}';
+		}else{
+			$.messager.alert('账户登录',res.info,'error');
+		}
+	});
+}	
+</script>			
+</div>	
+</body>
+</html>

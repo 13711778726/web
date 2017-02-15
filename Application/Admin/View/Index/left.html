@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/common.css" />
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__JS__/common.js"></script>
+</head>
+<body>
+	<div class="left_menu_mian">
+		<div class="left_menu_box" id="menu_list">
+		<foreach name="arr" item="res">
+			<ul class="menu_ul">
+				<div class="parent_menu_li">
+					<s></s>
+					<li class="menu_ul_li">
+						<div class="menu_ul_li_box">
+							<span class="menu_title">{$res.name}</span>
+						</div>							
+							<ul class="child_menu_ul">
+								<foreach name="res.child" item="re">
+								<li><a href='__MODULE__/{$re.url}' target="mainFrame">{$re.name}</a></li>
+								<div class="li_nav"></div>
+								</foreach>								
+							</ul>						
+					</li>
+				</div>					
+			</ul>
+		</foreach>				
+		</div>
+	</div>
+</body>
+</html>

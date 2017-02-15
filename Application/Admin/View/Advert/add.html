@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="__CSS__/handle.css" />
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__JS__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__JS__/ueditor/ueditor.all.js"></script>
+</head>
+<body>
+<div class="handle-main">
+	<div class="handle_title">添加广告</div>
+	<div class="handle_content">
+	<form action="{:U('advert/add')}" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td><label class="handle-label">上传封面：</label></td>
+				<td><input type="file" name="img" /><tab style="color:red;">图片尺寸为200X200</tab></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">位置类型：</label></td>
+				<td>
+					<div class="handle-select">
+		               <select id="ad_id" class="select-box" name="ad_id">
+		                   <option value="0">--请选择--</option>
+			                   <foreach name="advertlist" item="res">    
+			                   <option value="{$res.id}">{$res.name}</option>
+			                   </foreach>
+		               </select>
+		            </div>   
+	           </td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">内容类型：</label></td>
+				<td>
+					<div class="handle-select">
+		               <select id="ad_type" class="select-box" name="ad_type">
+		                   <option value="-1">--请选择--</option>
+			               <option value="0">文字</option>
+			               <option value="1">图片</option>
+		               </select>
+		            </div>   
+	           </td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">标题：</label></td>
+				<td><div class="handle-input"><input type="text" name="title" class="input-box"/></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">链接：</label></td>
+				<td><div class="handle-input"><input type="text" name="url" class="input-box"/></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">图片宽：</label></td>
+				<td><div class="handle-input"><input type="text" name="width" class="input-box" value="200" /></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">图片高：</label></td>
+				<td><div class="handle-input"><input type="text" name="height" class="input-box" value="200" /></div></td>
+			</tr>
+			<tr>
+				<td><label class="handle-label">文字内容：</label></td>
+				<td><div class="handle-area"><textarea name="content" class="textarea-box" cols="100" rows='8'></textarea></div></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2"><div class="handle-submit"><input type="submit" value="确定" class="submit-box">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="submit-box"></div></td>
+			</tr>
+		</table>
+	</form>		
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+.handle-main{
+	padding:0px;
+	margin:0px;
+	min-width:1075px;
+	overflow-x:hidden;
+}
+.handle_title{
+	width:100%;
+	line-height:35px;
+	padding-left:10px;
+	color:#0000;
+	font-size:28px;
+}
+.handle_content{
+	padding-top:10px;
+	width:100%;
+	line-height:35px;
+	padding-left:10px;
+}
+.handle-label{
+	
+}
+.handle-select{
+	
+}
+.select-box{
+	border-radius: 4px 4px 4px 4px;
+	border: 1px solid #88b4e3;
+	height:28px;
+}
+.input-box{
+	border-radius: 4px 4px 4px 4px;
+	border: 1px solid #88b4e3;
+	height:28px;
+	width:500px;
+}
+.textarea-box{
+	border: 1px solid #88b4e3;
+}
+.handle-submit{
+	padding:20px 0;
+	text-align:center;
+}
+.submit-box{
+	border-radius: 4px 4px 4px 4px;
+	height:36px;
+	width:80px;
+	border: 1px solid #88b4e3;
+}
+.input-checkbox{
+	width:13px; height:13px;vertical-align:middle;_vertical-align:bottom; margin-top:0;
+}
+.priv-list{
+	line-height:30px;
+}
+.priv-title{
+	width:80px;
+	float:left;
+}
+.priv-main{
+	width:200px;
+	float:left;
+}
+.priv-main-box{
+	width:100px;
+	float:left;
+}
+.priv-box{
+	width:300px;
+}

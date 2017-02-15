@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<include file="Common:header"/>
+<title>Insert title here</title>
+</head>
+<body>
+<div class="page-header">
+     <h2>分类管理<small>->分类列表</small></h2>  
+</div>
+<div class="row">
+        <div class="col-xs-12">
+        	 <form id="tb" class="easyui-form" data-options="novalidate:true" style="margin-bottom: 10px;">
+                <table>
+                    <tr>
+                        <td>分类名称:</td> 
+                        <td><input type="text" class="easyui-textbox" id="name" name="name" /></td>                                                                 
+                        <td>&emsp;
+                            <a onclick="searchGrid()" href="javascript:void(0)"
+                               class="easyui-linkbutton">查询</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <table id="grid" style="width:100%;height:600px">
+            </table>
+        </div>
+</div>
+<div id="window" class="easyui-window" style="padding: 10px"
+         data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">
+        <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
+            <table cellpadding="5">               
+                <tr>
+                    <td>分类名称:</td>
+                    <td colspan="3" style="padding: 5px 0;">
+                        <input class="easyui-textbox" name="name"
+                               data-options="required:true"/>
+                    </td>
+                </tr> 
+                <tr>
+                    <td>描述:</td>
+                    <td colspan="3" style="padding: 5px 0;">
+                        <textarea name="desc" class="desc" data-options="required:true" placeholder="请输入内容" cols='21' rows='8'></textarea>
+                    </td>
+                </tr>                                            
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+        </div>
+    </div>
+<script type="text/javascript">	
+$('#grid').datagrid({
+    title: '分类管理',
+    method: 'get',
+    //rownumbers: true,
+    pagination: true,
+    pageSize: 20,
+    //fit:true,
+    width: '99%',
+    height: 'auto',
+    fitColumns: true,
+    iconCls:'icon-edit',
+    singleSelect:false,//是否单选
+    frozenColumns:[[ 
+         {field:'ck',checkbox:true} 
+    ]],
+    url:"{:U('Cat/catAjax')}",
+    onBeforeLoad: function (param) {
+     /* param.start = ((param.page - 1) * param.page_size) < 0 ? 0 : ((param.page - 1) * param.page_size);
+     param.limit = param.page_size; */
+    },
+    toolbar: [{ 
+        text: '添加', 
+        iconCls: 'icon-add', 
+        handler: function() { 
+        	add();
+        } 
+    },/* '-', { 
+        text: '修改', 
+        iconCls: 'icon-edit', 
+        handler: function() { 
+            openDialog("add_dialog","edit"); 
+        } 
+    }, '-',{ 
+        text: '删除', 
+        iconCls: 'icon-remove', 
+        handler: function(){ 
+            delAppInfo(); 
+        } 
+    } */],
+    columns: [
+        [
+            {title: '分类ID', field: 'catid', width: 50, align: 'center'},            
+            {title: '分类名称', field: 'name', width: 100, align: 'center'},
+            {title: '添加时间', field: 'addtime', width: 50, align: 'center'},
+            {title: '分类描述', field: 'desc', width: 100, align: 'center'},           
+            {
+                title: '操作', field: 'opt', width: 80, align: 'center', formatter: function (value, row, index) {
+               	if(row.isshow == 1){
+                   	var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.catid + '\',0)"  href="javascript:void(0)">隐藏</a> | '; 
+                }else{
+                   	var btn = '<a class="easyui-linkbutton" onclick="checkshow(\'' + row.catid + '\',1)"  href="javascript:void(0)">显示</a> | '; 
+                }	
+                var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + index + '\')"  href="javascript:void(0)">編輯</a> | ';
+                var btn2 = '<a class="easyui-linkbutton" onclick="del(\'' + row.catId + '\')"  href="javascript:void(0)">刪除</a>';
+                return btn + btn1 + btn2;
+            }
+            }
+        ]
+    ],
+});
+function searchGrid() {
+    var name = $('#name').textbox('getValue');
+    $('#grid').datagrid('reload', {
+        name: name,
+    });
+}
+var selectRow;
+var ctrlUrl = "{:U('cat/edit')}";
+function add() {
+    $('#window').window({
+        title: "添加分类"
+    });
+    selectRow = null;
+    $('#window').window('open');
+    $('#ff').form('clear');
+}
+function edit(index) {
+    $('#grid').datagrid('selectRow', index);
+    $('#window').window({
+        title: "編輯分类"
+    });
+    selectRow = $('#grid').datagrid('getSelected'); //此处竟然传引用。
+    //$('#img').attr('src', selectRow.img);
+    $('#ff').form('load', selectRow);
+    $('#window').window('open');
+}
+function del(id) {
+    $.messager.confirm('刪除分类', '你確定要刪除該信息嗎?', function (r) {
+        if (r) {
+            $.post(ctrlUrl, {catid: id, oper: 'del'}, function (data) {
+                if (data.status == 0) {
+                	$.messager.alert('删除数据','删除失败！！','error');
+                    $('#grid').datagrid('reload');
+                    return;
+                }
+                //alert('操作成功');
+                $('#grid').datagrid('reload');
+            }, 'json')
+        }
+    });
+}
+function checkshow(catid,isshow){
+	$.post(ctrlUrl,{catid:catid,isshow:isshow,oper:'sign'},function(res){
+		if(res.status == 0){
+			$.messager.alert('标记分类','标记失败！！','error');
+            $('#grid').datagrid('reload');
+            return;
+		}else{
+			$('#grid').datagrid('reload');
+		}
+	});
+}
+function submitForm() {
+    $('#ff').form('submit', {
+        url: ctrlUrl,
+        onSubmit: function (param) {
+            if (selectRow != null) {
+                param.catid = selectRow.catid;
+                param.oper = 'edit';
+            } else {
+                param.oper = 'add';
+            }	
+            return $(this).form('enableValidation').form('validate');
+        },
+        success: function (data) {
+            if (data.status == 0) {
+            	$.messager.alert('修改数据','修改失败！！','error');
+                return;
+            }
+            //$.messager.alert('修改数据','修改成功！！','info');
+            $('#window').window('close');
+            $('#grid').datagrid('reload');
+            clearForm();
+        }
+    });
+}
+function clearForm() {
+    $('#ff').form('clear');
+}
+</script>
+</body>
+</html>

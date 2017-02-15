@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="__CSS__/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/slicebox.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/custom.css" />
+<script type="text/javascript" src="__JS__/modernizr.custom.46884.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+<include file="Common:header"/>
+<div class="main">
+	<div class="index-banner">
+		<div class="index-banner-left"></div>
+		<div class="index-banner-right">
+			<div class="wrapper" style="width:700px;height:100%;overflow:hidden;margin:0 auto;">
+				<ul id="sb-slider" class="sb-slider" style="max-width:800px;">
+				<foreach name="adlist" item="re">
+					<li>
+						<a href="{$re.url}" target="_blank"><img src="__UPLOAD__{$re.img}" alt="image1"/></a>
+						<div class="sb-description">
+							<h3>{$re.title}</h3>
+						</div>
+					</li>
+				</foreach>						
+				</ul>
+				<div id="shadow" class="shadow"></div>
+				<div id="nav-arrows" class="nav-arrows">
+					<a href="#">Next</a>
+					<a href="#">Previous</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<foreach name="arr" item="res">
+	<div class="index-content">
+		<div class="index-content-left">
+			<div class="index-content-left-title"><i></i><span class="index-content-left-title-span">{$res.labelname}</span><span class="index-content-left-title-more"><a href="">更多</a></span></div>
+			<div class="index-content-left-main">
+				<foreach name="res.list" item="lre">
+				<figure>
+					<div class="pic_box"><img src="{$lre.img}"></div>
+					<div class="lia_box">
+						<span class="fz">{$lre.name}</span>
+						<span class="nz">{$lre.title}</span>
+					</div>
+				</figure>
+				</foreach>
+			</div>
+		</div>
+		<div class="index-content-right">
+			<div class="index-content-right-title"></div>
+			<div class="index-content-right-main">
+				<ul class="index-content-ul">
+				<foreach name="res.clicklist" item="cre">
+					<li class="index-content-li">
+						<div class="content-sign"></div>
+						<div class="content-ul-title"><a href="">{$cre.title}</a></div><div class="content-ul-date">{$cre.addtime}</div>					
+					</li>
+				</foreach>										
+				</ul>
+			</div>
+		</div>		
+	</div>
+	</foreach>	
+</div>
+<include file="Common:footer"/>
+<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.slicebox.js"></script>
+<script type="text/javascript">
+$(function() {
+	
+	var Page = (function() {
+
+		var $navArrows = $( '#nav-arrows' ).hide(),
+			$navOptions = $( '#nav-options' ).hide(),
+			$shadow = $( '#shadow' ).hide(),
+			slicebox = $( '#sb-slider' ).slicebox( {
+				onReady : function() {
+					slicebox.play();
+					$navArrows.show();
+					$navOptions.show();
+					$shadow.show();
+
+				},
+				orientation : 'h',
+				cuboidsCount : 3
+			} ),
+			
+			init = function() {
+
+				initEvents();
+				
+			},
+			initEvents = function() {
+
+				// add navigation events
+				$navArrows.children( ':first' ).on( 'click', function() {
+
+					slicebox.next();
+					return false;
+
+				} );
+
+				$navArrows.children( ':last' ).on( 'click', function() {
+					
+					slicebox.previous();
+					return false;
+
+				} );
+
+				$( '#navPlay' ).on( 'click', function() {
+					
+					slicebox.play();
+					return false;
+
+				} );
+
+				$( '#navPause' ).on( 'click', function() {
+					
+					slicebox.pause();
+					return false;
+
+				} );
+
+			};
+
+			return { init : init };
+
+	})();
+
+	Page.init();
+
+});
+</script>
+</body>
+</html>

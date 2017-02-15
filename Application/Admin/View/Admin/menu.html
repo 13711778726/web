@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="__JS__/jquery-1.11.1.min.js"></script>
+<include file="Common:header"/>
+<title>Insert title here</title>
+</head>
+<body>
+<div class="page-header">
+     <h2>后台管理<small>->菜单列表</small></h2>  
+</div>
+<div class="row">
+        <div class="col-xs-12">        	 
+            <table id="grid" style="width:100%;height:600px">
+            </table>
+        </div>
+</div>
+<div id="window" class="easyui-window" style="padding: 10px"
+         data-options="modal:true,minimizable:false,maximizable:false,collapsible:false,closed:true">
+        <form id="ff" class="easyui-form" method="post" data-options="novalidate:true" enctype="multipart/form-data">
+            <table cellpadding="5">               
+                <tr>
+                    <td>菜单名称:</td>
+                    <td colspan="3" style="padding: 5px 0;">
+                        <input class="easyui-textbox" name="name"
+                               data-options="required:true"/>
+                    </td>
+                </tr> 
+                <tr>
+                    <td>链接:</td>
+                    <td colspan="3" style="padding: 5px 0;">
+                        <input class="easyui-textbox" name="url"
+                               data-options="required:true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>父级id:</td>
+                    <td colspan="3" style="padding: 5px 0;">
+                        <input class="easyui-textbox" name="_parentId"
+                               data-options="required:true"/>
+                    </td>
+                </tr>                                                           
+            </table>
+        </form>
+        <div style="text-align:center;padding:5px">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+        </div>
+</div>
+<script type="text/javascript">	
+$('#grid').treegrid({
+    url: "{:U('admin/menuAjax')}",
+    idField: 'id',
+    width: '99%',
+    fitColumns: true,
+    treeField: 'name',
+    toolbar: [{ 
+        text: '添加', 
+        iconCls: 'icon-add', 
+        handler: function() { 
+        	add();
+        } 
+    }],
+    columns: [[
+        {
+            title: '菜单id',
+            field: 'id',
+            width: 180
+        },
+        {
+            title: '菜单名称',
+            field: 'name',
+            width: 180
+        },
+        {
+            title: '链接',
+            field: 'url',
+            width: 180
+        },
+        {
+            title: '父级菜单ID',
+            field: '_parentId',
+            width: 180
+        },
+        {
+            title: '是否禁用',
+            field: 'status',
+            width: 180
+        },
+        {title: '操作', field: 'opt', width: 100, align: 'center', formatter: function (value, row, index) {
+            var btn1 = '<a class="easyui-linkbutton" onclick="edit(\'' + row.id + '\')"  href="javascript:void(0)">编辑</a> ';
+            return btn1;
+        }}
+    ]],
+
+});
+var selectRow;
+var ctrlUrl = "{:U('admin/menuedit')}";
+function edit(index) {
+    $('#grid').treegrid('select', index);
+    $('#window').window({
+        title: "编辑菜单"
+    });
+    $('#window').window('open');
+    selectRow = $('#grid').treegrid('getSelected'); //此处竟然传引用。
+
+    $('#ff').form('load', selectRow);
+}
+function add() {
+    $('#window').window({
+        title: "添加菜单"
+    });
+    selectRow = null;
+    $('#window').window('open');
+    $('#ff').form('clear');
+}
+function submitForm() {
+    $('#ff').form('submit', {
+        url: ctrlUrl,
+        onSubmit: function (param) {
+            if (selectRow != null) {
+                param.id = selectRow.id;
+                param.oper = 'edit';
+            } else {
+                param.oper = 'add';
+            }	
+            return $(this).form('enableValidation').form('validate');
+        },
+        success: function (data) {
+            if (data.status == 0) {
+            	$.messager.alert('修改数据','修改失败！！','error');
+                return;
+            }
+            //$.messager.alert('修改数据','修改成功！！','info');
+            $('#window').window('close');
+            $('#grid').treegrid('reload');
+            clearForm();
+        }
+    });
+}
+function clearForm() {
+    $('#ff').form('clear');
+}
+</script>
+</body>
+</html>

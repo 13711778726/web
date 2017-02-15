@@ -1,0 +1,122 @@
+@CHARSET "UTF-8";
+/*广告位start*/
+.index-banner{
+	width:1263px;
+	height:300px;
+	margin:5px auto;
+	text-align:center;
+}
+.index-banner-left{
+	float:left;
+	background:red;
+	height:300px;
+	width:450px;
+}
+.index-banner-right{
+	float:right;
+	height:300px;
+	width:800px;
+}
+/*广告位end*/
+/*内容栏start*/
+.index-content{
+	width:1263px;
+	height:auto;
+	margin:0px auto;
+	text-align:center;	
+}
+/*left-content start*/
+.index-content-left{
+	width:900px;
+	height:520px;	
+	float:left;
+	margin:10px 0 0 0;
+	overflow: hidden;
+}
+.index-content-left-title{
+	width:900px;
+	height:50px;
+	/* background:yellow; */	
+	border-radius: 8px;
+}
+.index-content-left-main{
+	height:450px;
+	margin:0px;
+	padding:0px;
+	margin-right: -10px;
+}
+.index-content-left-main figure{
+	border: 1px solid #eee;
+    display: inline-block;
+    padding: 0px;
+    border-radius: 4px;
+    margin:9px 8px 0 0;
+    width: 217px;
+	height:145px;
+    text-align: left;
+    position: relative;
+	float:left;
+	
+}
+.index-content-ul li a{
+	color:#333;
+}
+.content-sign{color:red;float:left;}
+.content-ul-title{
+	width:225px;
+	white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+	text-align:left;
+	float:left;
+}
+.content-ul-date{
+	width:80px;
+	float:right;
+	padding-right:10px;
+}
+/*left-content end*/
+/*right-content start*/
+.index-content-right{
+	width:350px;
+	height:520px;
+	background:#eee;
+	float:right;
+	margin:10px 0 0 0;
+	border-radius:8px;
+}
+.index-content-right-title{
+	width:350px;
+	height:50px;
+	background:blue;
+	border-radius:8px 8px 0 0;
+	margin:0px;
+}
+.index-content-left-title-span{
+	line-height:30px;
+	padding:10px;
+	float:left;
+}
+.index-content-left-title-more{
+	line-height:20px;
+	padding:0 10px;
+	margin:15px 10px 0 0;
+	float:right;
+	border-radius:5px;
+	border:1px solid #e1e1e1;
+	font-size:12px;
+}
+.index-content-right-main{
+	width:350px;
+	height:auto;
+	margin:0px;
+}
+.index-content-right-main li{	
+	line-height:33px;
+	padding:10px 0 0 20px;
+}
+/*right-content end*/
+/*内容栏end*/
+.pic_box{width: 215px;height: 100px;margin:0px auto;/* border:1px solid #e1e1e1; */}
+.pic_box img{width: 215px;height: 100px;}
+.lia_box{overflow: hidden;padding:10px;box-sizing: border-box;width: 100%;}
+.fz{float: left;width: 50%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color:#333;font-size:14px;}
+.nz{float: right;width: 50%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;color:#333;font-size:14px;text-align: right;}
