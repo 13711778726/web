@@ -18,7 +18,7 @@ class CommentController extends CommonController {
             $where['cdb_comment.status'] = $status;
         }
         $pageSize = I('request.rows',20,'int');
-        $list=$Comment->field('cdb_comment.id,cdb_comment.dyid,cdb_comment.addtime,cdb_comment.replytime,cdb_comment.comment,cdb_comment.status,d.title,u.nickname')
+        $list=$Comment->field('cdb_comment.id,cdb_comment.dyid,cdb_comment.addtime,cdb_comment.replytime,cdb_comment.content,cdb_comment.status,d.title,u.nickname')
         ->join('LEFT JOIN cdb_dynamicsinfo d ON d.dyid=cdb_comment.dyid')
         ->join('LEFT JOIN cdb_user u ON u.userid=cdb_comment.userid')
         ->where($where)->page($page, $pageSize)->select();
